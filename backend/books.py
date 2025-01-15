@@ -1,48 +1,68 @@
 from datetime import datetime
+from backend.utils import load_data, BOOKS_FILE
 
 Books = []
+Books = load_data(BOOKS_FILE)
 
 def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, Language, READD=False, SKU=None):
-    if not ISBN or not Title or not Quantity.isdigit() or int(Quantity) <= 0:
-        return "Invalid input for ISBN, Title, or Quantity."
+    if not ISBN or int(Quantity) <= 0:
+        return "Invalid input for ISBN or Quantity."
     
     if READD:
         for book in Books:
-            if book["ISBN"] == SKU.split("-")[0]:
+            if book["ISBN"] == str(SKU).split("-")[0]:
                 book["Quantity"] += 1
                 date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                
+                if not isinstance(book.get("SKU"), dict):
+                    book["SKU"] = {}
+                
                 book["SKU"].setdefault(SKU, date)
                 return "Book quantity updated successfully"
-        return "Book not found to re-add"
 
-    else:
-        for book in Books:
-            if book["ISBN"] == ISBN:
-                for i in range(int(Quantity)):
-                    sku = f"{ISBN}-{len(book['SKU']) + i + 1}"
-                    date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                    book["SKU"].setdefault(sku, date)
-                book["Quantity"] += int(Quantity)
-                return "Book quantity updated successfully"
-
-        sku_dict = {}
-        for i in range(int(Quantity)):
-            sku = f"{ISBN}-{i + 1}"
-            date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            sku_dict[sku] = date
-
+        # If book with ISBN not found, add it as a new book
+        sku_dict = {SKU: datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
         Books.append({
-            "ISBN": ISBN,
+            "ISBN": str(SKU).split("-")[0],
             "Title": Title,
             "Description": Description,
             "Category": Category,
-            "Quantity": int(Quantity),
+            "Quantity": 1,
             "SKU": sku_dict,
             "Author": Author,
             "Publisher": Publisher,
             "Language": Language,
         })
-        return "Book added successfully"
+        return "Book re-added as a new entry"
+
+    for book in Books:
+        if book["ISBN"] == ISBN:
+            for i in range(int(Quantity)):
+                sku = f"{ISBN}-{len(book['SKU']) + i + 1}"
+                date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                book["SKU"].setdefault(sku, date)
+            book["Quantity"] += int(Quantity)
+            return "Book quantity updated successfully"
+
+    # Add new book
+    sku_dict = {}
+    for i in range(int(Quantity)):
+        sku = f"{ISBN}-{i + 1}"
+        date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        sku_dict[sku] = date
+
+    Books.append({
+        "ISBN": ISBN,
+        "Title": Title,
+        "Description": Description,
+        "Category": Category,
+        "Quantity": int(Quantity),
+        "SKU": sku_dict,
+        "Author": Author,
+        "Publisher": Publisher,
+        "Language": Language,
+    })
+    return "Book added successfully"
 
 def update_books(ISBN, Title, Description, Category, Author, Publisher, Language):
     if not ISBN or not Title:

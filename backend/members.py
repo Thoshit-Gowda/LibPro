@@ -1,8 +1,12 @@
+import math
 import re
 from backend.books import remove_books, add_book, Books
 from datetime import datetime, timedelta
 
+from backend.utils import MEMBERS_FILE, load_data
+
 Members = []
+Members = load_data(MEMBERS_FILE)
 
 def is_valid_email(email):
     return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
@@ -25,7 +29,7 @@ def add_member(Name, Email, Password):
     return "Member added successfully"
 
 def update_member_details(UID, NAME, EMAIL, PASSWORD, OLD_PASSWORD):
-    if not UID or not UID.isdigit():
+    if not UID or not str(UID).isdigit():
         return "Valid UID is required"
     if not NAME.strip():
         return "Name is required"
@@ -38,7 +42,7 @@ def update_member_details(UID, NAME, EMAIL, PASSWORD, OLD_PASSWORD):
     
     for member in Members:
         if str(member["UID"]) == str(UID):
-            if member["Password"] == OLD_PASSWORD:
+            if str(member["Password"]) == str(OLD_PASSWORD):
                 member["Name"] = NAME.strip()
                 member["Email"] = EMAIL.strip()
                 member["Password"] = PASSWORD.strip()
@@ -46,8 +50,8 @@ def update_member_details(UID, NAME, EMAIL, PASSWORD, OLD_PASSWORD):
             return "Old password is incorrect"
     return "No member found"
 
-def update_member(UID, SKU, ADD_BOOK):
-    if not UID or not UID.isdigit():
+def update_member(UID, SKU, ADD_BOOK, fine_paid=False):
+    if not UID or not str(UID).isdigit():
         return "Valid UID is required"
     if not SKU.strip():
         return "SKU is required"
@@ -62,7 +66,6 @@ def update_member(UID, SKU, ADD_BOOK):
                     for member in Members:
                         if member["UID"] == int(UID):
                             member["SKU"][SKU] = future_date
-                            remove_books(SKU)
                             return "Book borrowed successfully"
         return "The book you are searching for is not available"
     else:
@@ -70,22 +73,38 @@ def update_member(UID, SKU, ADD_BOOK):
             if member["UID"] == int(UID):
                 if SKU in member["SKU"]:
                     borrow_date = datetime.strptime(member["SKU"][SKU], "%d/%m/%Y %H:%M:%S")
+                    days_late = abs((datetime.now() - borrow_date).days)
+                    fine = 5
+                    total_fine = 0
+                    for day in range(1, days_late + 1):
+                        total_fine += math.ceil(fine)
+                        fine += fine * 0.02
+                    
+                    if total_fine > 0 and not fine_paid:
+                        return f"Days Late: {days_late}\nFine incurred: \u20B9{abs(total_fine)}/-."
                     member["SKU"].pop(SKU)
-                    add_book("", "", "", "", 1, "", "", "", True, SKU)
-                    days_late = (datetime.now() - borrow_date).days - 15
-                    if days_late > 0:
-                        fine = 5
-                        total_fine = 0
-                        for day in range(1, days_late + 1):
-                            total_fine += fine
-                            fine += fine * 0.02
-                        return f"Book returned successfully. Fine incurred: {total_fine:.2f}"
-                    return "Book returned successfully. No fine incurred"
+                    res = add_book(
+                        ISBN=str(SKU).split("-")[0],
+                        Title="",
+                        Description="",
+                        Category="",
+                        Quantity=1,
+                        Author="",
+                        Publisher="",
+                        Language="",
+                        READD=True,
+                        SKU=SKU,
+                    )
+                    if res == "Invalid input for ISBN, Title, or Quantity.":
+                        return "Error: Unable to add book to database."
+                    if fine_paid:
+                        return f'Book returned successfully. Fine of \u20B9{total_fine}/- was paid.'
+                    return "Book returned successfully. No fine incurred."
                 return "Book not borrowed by this member"
         return "Member not found"
 
 def remove_member(UID):
-    if not UID or not UID.isdigit():
+    if not UID or not str(UID).isdigit():
         return "Valid UID is required"
     for member in Members:
         if member["UID"] == int(UID):
@@ -106,7 +125,7 @@ def sign_in(Name, Email, Password):
     return "Invalid credentials"
 
 def read_member(UID):
-    if not UID or not UID.isdigit():
+    if not UID or not str(UID).isdigit():
         return "Valid UID is required"
     for member in Members:
         if member["UID"] == int(UID):

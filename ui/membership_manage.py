@@ -55,7 +55,7 @@ def open_update_member_popup(app):
         messagebox.showerror("Error", "No member selected!")
         return
 
-    UID = table.item(selected_item)["values"][1]
+    UID = table.item(selected_item)["values"][0]
     if not UID:
         messagebox.showerror("Error", "Invalid UID!")
         return
@@ -73,8 +73,7 @@ def display_members():
         table.delete(row)
 
     for index, member in enumerate(Members):
-        table.insert("", "end", values=( 
-            index + 1,
+        table.insert("", "end", values=(
             member["UID"],
             member["Name"],
             member["Email"],

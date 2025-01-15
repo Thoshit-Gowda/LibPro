@@ -59,7 +59,6 @@ def open_add_member_popup(app, refresh_table_callback):
 
     ttk.Label(form_frame, text="Fill the details and click 'Add Member' to create new membership.", font=("Calibri", 10, "italic")).pack(pady=10)
 
-
 def update_member_popup(app, member_data, refresh_table_callback):
     popup = ttk.Toplevel(app)
     popup.geometry("600x400")
@@ -93,6 +92,9 @@ def update_member_popup(app, member_data, refresh_table_callback):
     def save_changes():
         updated_data = {label: var.get() for label, var in fields}
         updated_data["UID"] = member_data.get("UID", "")
+        updated_data["New Password"] = new_password_var.get()
+        updated_data["Old Password"] = old_password_var.get()
+
         if 'UID' not in updated_data or not updated_data["UID"]:
             messagebox.showerror("Error", "UID is required.")
             return
@@ -117,14 +119,14 @@ def update_member_popup(app, member_data, refresh_table_callback):
         elif result == "No member found":
             messagebox.showerror("Error", "No member found with the given UID.")
         else:
-            messagebox.showinfo("Success", "Member Details updated successfully!")
+            messagebox.showerror("Error", result+".")
         refresh_table_callback()
         popup.destroy()
 
     ttk.Button(form_frame, text="Save Changes", command=save_changes, style="crimson.TButton").pack(pady=10)
 
+    ttk.Label(form_frame, text="Note: If you do not want to change the password, enter old password as new password.", font=("Calibri", 10, "italic")).pack(pady=10)
     ttk.Label(form_frame, text="Modify the details and click 'Save Changes' to update the member's details.", font=("Calibri", 10, "italic")).pack(pady=10)
-
 
 def open_delete_member_popup(app, table, refresh_table_callback):
     selected_item = table.selection()
@@ -133,7 +135,7 @@ def open_delete_member_popup(app, table, refresh_table_callback):
         return
     res = messagebox.askyesno("Confirm Deletion", "Are you sure you want to cancel membership?")
     if res:
-        uid = table.item(selected_item)["values"][1]
+        uid = table.item(selected_item)["values"][0]
         deletion_result = remove_member(uid)
 
         if deletion_result == "Member removed successfully":
@@ -141,7 +143,6 @@ def open_delete_member_popup(app, table, refresh_table_callback):
             refresh_table_callback()
         else:
             messagebox.showerror("Error", deletion_result)
-
 
 def open_update_member_book_popup(app, table, addbook, refresh_table_callback):
     selected_item = table.selection()
@@ -172,12 +173,24 @@ def open_update_member_book_popup(app, table, addbook, refresh_table_callback):
             return
 
         result = update_member(uid, sku, addbook)
-        if "successfully" in result:
+        
+        if "Fine incurred" in result:
+            fine_confirmation = messagebox.askyesno(
+                "Fine Confirmation", 
+                f"{result}\n\nHas the fine been paid?"
+            )
+            if fine_confirmation:
+                result = update_member(uid, sku, addbook, fine_paid=True)
+                messagebox.showinfo("Success", result)
+            else:
+                messagebox.showinfo("Info", "The book will remain with member until the fine is paid.")
+        
+        elif "successfully" in result:
             messagebox.showinfo("Success", result)
-            refresh_table_callback()
-            popup.destroy()
+        
         else:
             messagebox.showerror("Error", result)
+        
         refresh_table_callback()
         popup.destroy()
 

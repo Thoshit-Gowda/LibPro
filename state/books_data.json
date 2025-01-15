@@ -1,0 +1,76 @@
+[
+    {
+        "ISBN": "9783161484100",
+        "Title": "Python Programming Basics",
+        "Description": "A beginner's guide to Python programming, covering basics to advanced topics.",
+        "Category": "Programming",
+        "Quantity": 0,
+        "SKU": {},
+        "Author": "John Doe",
+        "Publisher": "TechBooks Publishing",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9700140449136",
+        "Title": "Meditations",
+        "Description": "A series of personal writings by Marcus Aurelius on Stoic philosophy.",
+        "Category": "Philosophy",
+        "Quantity": 6,
+        "SKU": {
+            "9700140449136-4": "15/01/2025 10:24:23",
+            "9700140449136-5": "15/01/2025 10:24:23",
+            "9700140449136-7": "15/01/2025 10:24:23",
+            "9700140449136-8": "15/01/2025 10:24:23",
+            "9700140449136-10": "15/01/2025 10:24:23",
+            "9700140449136-6": "15/01/2025 13:26:33"
+        },
+        "Author": "Marcus Aurelius",
+        "Publisher": "Penguin Classics",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9781402894626",
+        "Title": "The Theory of Nothing",
+        "Description": "Stephen Hawking's exploration of the origins and fate of the universe.",
+        "Category": "Science",
+        "Quantity": 11,
+        "SKU": {
+            "9781402894626-1": "15/01/2025 10:25:55",
+            "9781402894626-2": "15/01/2025 10:25:55",
+            "9781402894626-3": "15/01/2025 10:25:55",
+            "9781402894626-4": "15/01/2025 10:25:55",
+            "9781402894626-5": "15/01/2025 10:25:55",
+            "9781402894626-6": "15/01/2025 10:25:55",
+            "9781402894626-7": "15/01/2025 10:25:55",
+            "9781402894626-8": "15/01/2025 10:25:55",
+            "9781402894626-10": "15/01/2025 10:25:55",
+            "9781402894626-11": "15/01/2025 10:25:55",
+            "9781402894626-12": "15/01/2025 10:25:55"
+        },
+        "Author": "Stephen Hawking",
+        "Publisher": "Bantam Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "123213",
+        "Title": "Thejas",
+        "Description": "Nothingness",
+        "Category": "Fiction",
+        "Quantity": 0,
+        "SKU": {},
+        "Author": "Pratham",
+        "Publisher": "Thoshit Anna Books Pvt. Ltd.",
+        "Language": "Python"
+    },
+    {
+        "ISBN": "12321321313",
+        "Title": "Thejas",
+        "Description": "Thoshitism, Prathamism, Thejasism",
+        "Category": "Fiction",
+        "Quantity": 0,
+        "SKU": {},
+        "Author": "Pratham",
+        "Publisher": "Pythonambe Books Pvt. Ltd",
+        "Language": "Pythonambe"
+    }
+]

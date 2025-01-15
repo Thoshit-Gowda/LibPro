@@ -202,7 +202,7 @@ def open_delete_book_popup(app, table, refresh_table_callback):
             return
 
         try:
-            sku_list = table.item(selected_item)["values"][5].split(",")
+            sku_list = table.item(selected_item)["values"][6].split(",")
             sku = sku_list[int(sku_number) - 1]
 
             result = remove_books(sku)
