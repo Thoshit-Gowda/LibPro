@@ -1,7 +1,14 @@
 from datetime import datetime
 from backend.utils import load_data, BOOKS_FILE
+import os
+import shutil
+from barcode import Code128
+from barcode.writer import ImageWriter
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from constants import APP_NAME
 
-Books = []
+
 Books = load_data(BOOKS_FILE)
 
 def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, Language, READD=False, SKU=None):
@@ -20,7 +27,6 @@ def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, La
                 book["SKU"].setdefault(SKU, date)
                 return "Book quantity updated successfully"
 
-        # If book with ISBN not found, add it as a new book
         sku_dict = {SKU: datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
         Books.append({
             "ISBN": str(SKU).split("-")[0],
@@ -44,7 +50,6 @@ def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, La
             book["Quantity"] += int(Quantity)
             return "Book quantity updated successfully"
 
-    # Add new book
     sku_dict = {}
     for i in range(int(Quantity)):
         sku = f"{ISBN}-{i + 1}"
@@ -63,6 +68,74 @@ def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, La
         "Language": Language,
     })
     return "Book added successfully"
+
+def generate_barcodes_and_pdf(barcodes):
+    output_dir = "barcodes"
+    pdf_filename = "barcodes.pdf"
+    
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    barcode_images = []
+    for barcode_data in barcodes:
+        barcode = Code128(barcode_data, writer=ImageWriter())
+        image_path = os.path.abspath(os.path.join(output_dir, f"{barcode_data}.png"))
+        try:
+            barcode.save(image_path[:-4])
+            barcode_images.append(image_path)
+        except Exception as e:
+            return f"Error saving barcode {barcode_data}: {e}"
+
+    if not barcode_images:
+        return "No barcodes generated."
+
+    try:
+        c = canvas.Canvas(pdf_filename, pagesize=letter)
+        x, y = 50, 750
+
+        for image in barcode_images:
+            if not os.path.exists(image):
+                continue
+            try:
+                c.drawImage(image, x, y, width=200, height=50)
+                y -= 100
+                if y < 100:
+                    c.showPage()
+                    y = 750
+            except Exception as e:
+                return f"Error adding image {image} to PDF: {e}"
+        
+        c.save()
+    except Exception as e:
+        return f"Error creating PDF: {e}"
+
+    try:
+        shutil.rmtree(output_dir)
+    except Exception as e:
+        return "PDF created but error deleting temporary folder."
+
+    return f"Barcodes PDF saved as {os.path.abspath(pdf_filename)}"
+
+def download_barcodes(book, save_path=None):
+    if not book or "SKU" not in book:
+        return "Error: Invalid book selected or no SKUs found."
+
+    barcodes = list(book["SKU"].keys())
+    if not barcodes:
+        return "Error: No barcodes available for the selected book."
+
+    pdf_result = generate_barcodes_and_pdf(barcodes)
+    if pdf_result.startswith("Error"):
+        return pdf_result
+
+    if save_path:
+        try:
+            shutil.move("barcodes.pdf", save_path)
+            return f"Success: Barcodes saved at {save_path}"
+        except Exception as e:
+            return f"Error saving file: {e}"
+
+    return "Success: Barcodes PDF generated but not saved."
 
 def update_books(ISBN, Title, Description, Category, Author, Publisher, Language):
     if not ISBN or not Title:

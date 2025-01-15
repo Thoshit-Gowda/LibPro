@@ -1,7 +1,10 @@
+import os
+import shutil
+from tkinter import filedialog
 import ttkbootstrap as ttk
 import tkinter as tk
 from tkinter import StringVar, messagebox
-from backend.books import add_book, update_books, remove_books
+from backend.books import add_book, download_barcodes, update_books, remove_books
 
 def get_selected_book(table):
     selected = table.focus()
@@ -237,3 +240,47 @@ def open_delete_book_popup(app, table, refresh_table_callback):
     ttk.Button(form_frame, text="Delete All", command=delete_all_books, style="crimson.TButton").grid(row=3, columnspan=2, pady=10)
 
     ttk.Label(form_frame, text="This action cannot be undone.", font=("Calibri", 10, "italic")).grid(row=4, columnspan=2, pady=10)
+
+def open_download_barcodes_popup(app, table):
+    selected_item = table.selection()
+    if not selected_item:
+        messagebox.showerror("Error", "No book selected!")
+        return
+
+    # Extract book data from the selected row
+    selected_book = table.item(selected_item)["values"]
+    if not selected_book:
+        messagebox.showerror("Error", "Unable to retrieve selected book data!")
+        return
+
+    # Convert table data to book dictionary format
+    book = {
+        "ISBN": selected_book[0],
+        "Title": str(selected_book[1]),  # Ensure Title is treated as a string
+        "SKU": {sku: "date" for sku in selected_book[6].split(",")}  # Adjust based on table column for SKUs
+    }
+
+    # Confirmation dialog
+    confirm = messagebox.askyesno("Confirmation", f"Do you want to download barcodes for '{book['Title']}'?")
+    if not confirm:
+        return
+
+    # File save dialog
+    save_file = filedialog.asksaveasfilename(
+        title="Save Barcode PDF",
+        defaultextension=".pdf",
+        filetypes=[("PDF Files", "*.pdf")],
+        initialfile=f"{book['Title'].replace(' ', '_')}_barcodes.pdf"
+    )
+
+    # Call backend logic
+    if save_file:
+        result = download_barcodes(book, save_path=save_file)
+    else:
+        result = download_barcodes(book)  # Generate without saving if the user cancels the save dialog
+
+    # Show result to the user
+    if result.startswith("Success"):
+        messagebox.showinfo("Success", result)
+    else:
+        messagebox.showerror("Error", result)
