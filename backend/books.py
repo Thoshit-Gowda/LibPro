@@ -6,14 +6,16 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from constants import APP_NAME
 
 
 Books = load_data(BOOKS_FILE)
 
+def is_valid_isbn(isbn):
+    return len(isbn) == 10 or len(isbn) == 13 and isbn.isdigit()
+
 def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, Language, READD=False, SKU=None):
-    if not ISBN or int(Quantity) <= 0:
-        return "Invalid input for ISBN or Quantity."
+    if not ISBN or int(Quantity) <= 0 or not is_valid_isbn(ISBN):
+        return "Invalid input for ISBN (must be 10 or 13 digits) or Quantity."
     
     if READD:
         for book in Books:
@@ -138,8 +140,8 @@ def download_barcodes(book, save_path=None):
     return "Success: Barcodes PDF generated but not saved."
 
 def update_books(ISBN, Title, Description, Category, Author, Publisher, Language):
-    if not ISBN or not Title:
-        return "Invalid input for ISBN or Title."
+    if not ISBN or not Title or not is_valid_isbn(ISBN):
+        return "Invalid input for ISBN (must be 10 or 13 digits) or Title."
 
     for book in Books:
         if book["ISBN"] == ISBN:
@@ -179,8 +181,8 @@ def remove_books(SKU, delete_all=False):
     return f"Book with ISBN {ISBN} not found"
 
 def read_book(ISBN):
-    if not ISBN:
-        return "Invalid ISBN input."
+    if not ISBN or not is_valid_isbn(ISBN):
+        return "Invalid ISBN input (must be 10 or 13 digits)."
 
     for book in Books:
         if book["ISBN"] == ISBN:
