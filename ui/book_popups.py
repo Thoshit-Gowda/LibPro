@@ -76,7 +76,7 @@ def open_add_book_popup(app, refresh_table_callback):
                 messagebox.showerror("Error", "All fields must be filled in.")
                 return
 
-            add_book(
+            result = add_book(
                 ISBN=isbn,
                 Title=title,
                 Description=description,
@@ -86,9 +86,14 @@ def open_add_book_popup(app, refresh_table_callback):
                 Publisher=publisher,
                 Language=language,
             )
-            messagebox.showinfo("Success", "Book added successfully!")
-            refresh_table_callback()
-            popup.destroy()
+
+            if result.startswith("Invalid"):
+                messagebox.showerror("Error", result)
+            elif result.startswith("Book quantity updated") or result.startswith("Book added"):
+                messagebox.showinfo("Success", result)
+                refresh_table_callback()
+                popup.destroy()
+
         except ValueError:
             messagebox.showerror("Error", "Please enter valid data for Quantity.")
 
@@ -153,7 +158,7 @@ def update_book_popup(app, book_data, refresh_table_callback):
             messagebox.showerror("Error", "All fields must be filled in.")
             return
 
-        update_books(
+        result = update_books(
             updated_data["ISBN"],
             updated_data["Title"],
             updated_data["Description"],
@@ -162,9 +167,13 @@ def update_book_popup(app, book_data, refresh_table_callback):
             updated_data["Publisher"],
             updated_data["Language"]
         )
-        messagebox.showinfo("Success", "Book updated successfully!")
-        refresh_table_callback()
-        popup.destroy()
+
+        if result.startswith("Invalid"):
+            messagebox.showerror("Error", result)
+        elif result.startswith("Book details updated"):
+            messagebox.showinfo("Success", result)
+            refresh_table_callback()
+            popup.destroy()
 
     ttk.Button(form_frame, text="Save Changes", command=save_changes, style="crimson.TButton").grid(row=len(fields) // 2 + 2, columnspan=2, pady=10)
 
@@ -210,10 +219,10 @@ def open_delete_book_popup(app, table, refresh_table_callback):
 
             result = remove_books(sku)
 
-            if result == "No Book found" or result == "SKU not found in the book's SKU list":
+            if result.startswith("Invalid"):
                 messagebox.showerror("Error", result)
-            else:
-                messagebox.showinfo("Success", "Book deleted successfully!")
+            elif result.startswith("Book removed"):
+                messagebox.showinfo("Success", result)
                 refresh_table_callback()
             popup.destroy()
 
@@ -229,58 +238,33 @@ def open_delete_book_popup(app, table, refresh_table_callback):
             isbn = table.item(selected_item)["values"][1]
             deletion_result = remove_books(isbn, delete_all=True)
 
-            if deletion_result == "All books with ISBN removed successfully":
-                messagebox.showinfo("Success", "All books deleted successfully!")
+            if deletion_result.startswith("Invalid"):
+                messagebox.showerror("Error", deletion_result)
+            elif deletion_result.startswith("All books removed"):
+                messagebox.showinfo("Success", deletion_result)
                 popup.destroy()
                 refresh_table_callback()
-            else:
-                messagebox.showerror("Error", deletion_result)
 
     ttk.Button(form_frame, text="Delete SKU", command=delete_book_by_sku, style="crimson.TButton").grid(row=2, columnspan=2, pady=10)
     ttk.Button(form_frame, text="Delete All", command=delete_all_books, style="crimson.TButton").grid(row=3, columnspan=2, pady=10)
 
     ttk.Label(form_frame, text="This action cannot be undone.", font=("Calibri", 10, "italic")).grid(row=4, columnspan=2, pady=10)
 
-def open_download_barcodes_popup(app, table):
-    selected_item = table.selection()
+def open_download_barcodes_popup(app, table, refresh_table_callback):
+    selected_item = get_selected_book(table)
     if not selected_item:
         messagebox.showerror("Error", "No book selected!")
         return
 
-    # Extract book data from the selected row
-    selected_book = table.item(selected_item)["values"]
-    if not selected_book:
-        messagebox.showerror("Error", "Unable to retrieve selected book data!")
-        return
+    book_isbn = selected_item[1]
 
-    # Convert table data to book dictionary format
-    book = {
-        "ISBN": selected_book[0],
-        "Title": str(selected_book[1]),  # Ensure Title is treated as a string
-        "SKU": {sku: "date" for sku in selected_book[6].split(",")}  # Adjust based on table column for SKUs
-    }
+    try:
+        result = download_barcodes(book_isbn)
 
-    # Confirmation dialog
-    confirm = messagebox.askyesno("Confirmation", f"Do you want to download barcodes for '{book['Title']}'?")
-    if not confirm:
-        return
+        if result.startswith("Error"):
+            messagebox.showerror("Error", result)
+        else:
+            messagebox.showinfo("Success", result)
 
-    # File save dialog
-    save_file = filedialog.asksaveasfilename(
-        title="Save Barcode PDF",
-        defaultextension=".pdf",
-        filetypes=[("PDF Files", "*.pdf")],
-        initialfile=f"{book['Title'].replace(' ', '_')}_barcodes.pdf"
-    )
-
-    # Call backend logic
-    if save_file:
-        result = download_barcodes(book, save_path=save_file)
-    else:
-        result = download_barcodes(book)  # Generate without saving if the user cancels the save dialog
-
-    # Show result to the user
-    if result.startswith("Success"):
-        messagebox.showinfo("Success", result)
-    else:
-        messagebox.showerror("Error", result)
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while downloading barcodes: {str(e)}")

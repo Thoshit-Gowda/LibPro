@@ -72,5 +72,21 @@
         "Author": "Pratham",
         "Publisher": "Pythonambe Books Pvt. Ltd",
         "Language": "Pythonambe"
+    },
+    {
+        "ISBN": "1231231231",
+        "Title": "asd",
+        "Description": "sdada",
+        "Category": "asdasda",
+        "Quantity": 4,
+        "SKU": {
+            "1231231231-1": "15/01/2025 21:06:58",
+            "1231231231-2": "15/01/2025 21:06:58",
+            "1231231231-3": "15/01/2025 21:06:58",
+            "1231231231-4": "15/01/2025 21:06:58"
+        },
+        "Author": "dsad",
+        "Publisher": "asdasd",
+        "Language": "adsada"
     }
 ]
