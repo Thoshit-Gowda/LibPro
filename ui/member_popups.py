@@ -92,8 +92,8 @@ def update_member_popup(app, member_data, refresh_table_callback):
     def save_changes():
         updated_data = {label: var.get() for label, var in fields}
         updated_data["UID"] = member_data.get("UID", "")
-        updated_data["New Password"] = new_password_var.get()
-        updated_data["Old Password"] = old_password_var.get()
+        updated_data["New Password"] = new_password_var.get().strip()
+        updated_data["Old Password"] = old_password_var.get().strip()
 
         if 'UID' not in updated_data or not updated_data["UID"]:
             messagebox.showerror("Error", "UID is required.")
