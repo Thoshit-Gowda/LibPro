@@ -2,6 +2,7 @@ import time
 from tkinter import messagebox
 import ttkbootstrap as ttk
 
+from ui.shelf_manage import shelf_manage
 from ui.membership_manage import membership_manage
 from ui.books_manage import books_manage
 
@@ -17,6 +18,13 @@ def open_book_management(app):
         return
     welcome_frame.pack_forget()
     books_manage(app)
+
+def open_rack_management(app):
+    if not app:
+        messagebox.showerror("Error", "Application instance not found.")
+        return
+    welcome_frame.pack_forget()
+    shelf_manage(app)
 
 def logout(app):
     res = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?")
@@ -61,6 +69,9 @@ def welcome_screen(app):
 
     book_management_button = ttk.Button(right_frame, text="Books Management", command=lambda: open_book_management(app), style="crimson.TButton")
     book_management_button.pack(pady=10, fill="x")
+    
+    book_rack_management_button = ttk.Button(right_frame, text="Book Rack Management", command=lambda: open_rack_management(app), style="crimson.TButton")
+    book_rack_management_button.pack(pady=10, fill="x")
 
     membership_management_button = ttk.Button(right_frame, text="Membership Management", command=lambda: open_membership_management(app), style="crimson.TButton")
     membership_management_button.pack(pady=10, fill="x")

@@ -24,6 +24,7 @@ def add_member(Name, Email, Password):
         "Email": Email.strip(),
         "Password": Password.strip(),
         "SKU": {},
+        "Wishlist": [],
         "JoinedOn": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     })
     return "Member added successfully"
@@ -57,8 +58,9 @@ def update_member(UID, SKU, ADD_BOOK, fine_paid=False):
         return "SKU is required"
     if ADD_BOOK not in [True, False]:
         return "ADD_BOOK must be either True or False"
-    
+
     future_date = (datetime.now() + timedelta(days=15)).strftime("%d/%m/%Y %H:%M:%S")
+
     if ADD_BOOK:
         for book in Books:
             if str(book["ISBN"]) == str(SKU).split("-")[0]:
@@ -73,16 +75,20 @@ def update_member(UID, SKU, ADD_BOOK, fine_paid=False):
             if member["UID"] == int(UID):
                 if SKU in member["SKU"]:
                     borrow_date = datetime.strptime(member["SKU"][SKU], "%d/%m/%Y %H:%M:%S")
-                    days_late = abs((datetime.now() - borrow_date).days)
-                    fine = 5
-                    total_fine = 0
-                    for day in range(1, days_late + 1):
-                        total_fine += math.ceil(fine)
-                        fine += fine * 0.02
+                    days_late = (datetime.now() - borrow_date).days
                     
-                    if total_fine > 0 and not fine_paid:
-                        return f"Days Late: {days_late}\nFine incurred: \u20B9{abs(total_fine)}/-."
+                    total_fine = 0
+                    if days_late > 0:
+                        fine = 5
+                        for day in range(1, days_late + 1):
+                            total_fine += math.ceil(fine)
+                            fine += fine * 0.02
+
+                        if not fine_paid:
+                            return f"Days Late: {days_late}\nFine incurred: \u20B9{total_fine}/-."
+
                     member["SKU"].pop(SKU)
+                    
                     res = add_book(
                         ISBN=str(SKU).split("-")[0],
                         Title="",
@@ -97,9 +103,11 @@ def update_member(UID, SKU, ADD_BOOK, fine_paid=False):
                     )
                     if res == "Invalid input for ISBN, Title, or Quantity.":
                         return "Error: Unable to add book to database."
-                    if fine_paid:
+
+                    if total_fine > 0 and fine_paid:
                         return f'Book returned successfully. Fine of \u20B9{total_fine}/- was paid.'
                     return "Book returned successfully. No fine incurred."
+
                 return "Book not borrowed by this member"
         return "Member not found"
 
@@ -112,15 +120,13 @@ def remove_member(UID):
             return "Member removed successfully"
     return "Member not found"
 
-def sign_in(Name, Email, Password):
-    if not Name.strip():
-        return "Name is required"
+def sign_in(Email, Password):
     if not Email.strip() or not is_valid_email(Email):
         return "Valid email is required"
     if not Password.strip():
         return "Password is required"
     for member in Members:
-        if member["Name"] == Name.strip() and member["Email"] == Email.strip() and member["Password"] == Password.strip():
+        if member["Email"] == Email.strip() and member["Password"] == Password.strip():
             return member
     return "Invalid credentials"
 
@@ -131,3 +137,23 @@ def read_member(UID):
         if member["UID"] == int(UID):
             return member
     return "No member found"
+
+def manage_wishlist(ADD, UID, ISBN):
+    if not UID or not str(UID).isdigit() or not ISBN or ADD not in [True, False]:
+        return "Valid parameters required"
+    
+    for mem in Members:
+        if str(mem["UID"]) == str(UID):
+            if ADD:
+                if ISBN not in mem["Wishlist"]:
+                    mem["Wishlist"].append(ISBN)
+                else:
+                    return "Error: Book already in wishlist"
+            else:
+                if ISBN in mem["Wishlist"]:
+                    mem["Wishlist"].remove(ISBN)
+                else:
+                    return "Book not present in wishlist"
+            return "Success"
+    
+    return "Error: UID is Invalid"

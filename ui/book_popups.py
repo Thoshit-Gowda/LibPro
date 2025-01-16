@@ -1,5 +1,3 @@
-import os
-import shutil
 from tkinter import filedialog
 import ttkbootstrap as ttk
 import tkinter as tk

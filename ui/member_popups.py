@@ -7,6 +7,8 @@ from backend.members import add_member, remove_member, update_member, update_mem
 import cv2
 from pyzbar.pyzbar import decode
 
+from backend.utils import open_barcode_scanner
+
 def is_valid_email(email):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return re.match(email_regex, email) is not None
@@ -148,6 +150,7 @@ def open_delete_member_popup(app, table, refresh_table_callback):
         else:
             messagebox.showerror("Error", deletion_result)
 
+
 def open_update_member_book_popup(app, table, addbook, refresh_table_callback):
     selected_item = table.selection()
     if not selected_item:
@@ -200,68 +203,9 @@ def open_update_member_book_popup(app, table, addbook, refresh_table_callback):
         popup.destroy()
 
     def start_scanning():
-        cap = cv2.VideoCapture(0)
-
-        if not cap.isOpened():
-            messagebox.showerror("Error", "Could not access the webcam.")
-            return
-
-        line_position = 0
-        line_direction = 1
-
-        def stop_scanning():
-            cap.release()
-            cv2.destroyAllWindows()
-
-        def scan_thread():
-            nonlocal line_position, line_direction
-
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-
-                barcodes = decode(frame)
-
-                for barcode in barcodes:
-                    barcode_data = barcode.data.decode('utf-8')
-                    sku_var.set(str(barcode_data).strip())
-
-                    rect_points = barcode.polygon
-                    if len(rect_points) == 4:
-                        pts = numpy.array(rect_points, dtype=numpy.int32) 
-                        cv2.polylines(frame, [pts], True, (0, 0, 255), 2)
-
-                    x, y, w, h = barcode.rect
-                    cv2.putText(frame, barcode_data, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-                cv2.line(frame, (0, line_position), (frame.shape[1], line_position), (0, 255, 0), 2)
-                line_position += line_direction
-                if line_position >= frame.shape[0] or line_position <= 0:
-                    line_direction *= -1
-
-                cv2.imshow("Barcode Scanner", frame)
-
-                if sku_var.get():
-                    stop_scanning()
-                    break
-
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-
-            cap.release()
-            cv2.destroyAllWindows()
-
-        threading.Thread(target=scan_thread, daemon=True).start()
-
-    def stop_and_rescan():
-        sku_var.set("")
-        start_scanning()
+        open_barcode_scanner(sku_var) 
 
     ttk.Button(form_frame, text="Scan Barcode", command=start_scanning, style="crimson.TButton").pack(pady=5)
-
-    ttk.Button(form_frame, text="Rescan Barcode", command=stop_and_rescan, style="crimson.TButton").pack(pady=5)
-
     ttk.Button(form_frame, text="Submit", command=handle_action, style="crimson.TButton").pack(pady=20)
 
     ttk.Label(form_frame, text="Fill in the SKU and click Submit to either borrow or return the book.", font=("Calibri", 10, "italic")).pack(pady=10)
