@@ -174,11 +174,11 @@ def remove_books(SKU, delete_all=False):
                     book["Quantity"] = int(book["Quantity"]) - 1
                     return "Book removed successfully"
                 else:
-                    return "Book quantity is already 0, cannot remove further"
+                    return "Error: Book quantity is already 0, cannot remove further"
             else:
-                return f"SKU {sku} not found in the book"
+                return f"Error: SKU {sku} not found in the database"
     
-    return f"Book with ISBN {ISBN} not found"
+    return f"Error Book with ISBN {ISBN} not found"
 
 def read_book(ISBN):
     if not ISBN or not is_valid_isbn(ISBN):
