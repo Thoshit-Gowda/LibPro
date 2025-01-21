@@ -217,10 +217,10 @@ def open_delete_book_popup(app, table, refresh_table_callback):
 
             result = remove_books(sku)
 
-            if result.startswith("Invalid"):
+            if result == "No Book found" or result == "SKU not found in the book's SKU list":
                 messagebox.showerror("Error", result)
-            elif result.startswith("Book removed"):
-                messagebox.showinfo("Success", result)
+            else:
+                messagebox.showinfo("Success", "Book deleted successfully!")
                 refresh_table_callback()
             popup.destroy()
 
@@ -231,38 +231,56 @@ def open_delete_book_popup(app, table, refresh_table_callback):
 
     def delete_all_books():
         res = messagebox.askyesno("Confirm Deletion", "Are you sure you want to delete all books?")
-        
+
         if res:
             isbn = table.item(selected_item)["values"][1]
             deletion_result = remove_books(isbn, delete_all=True)
 
-            if deletion_result.startswith("Invalid"):
-                messagebox.showerror("Error", deletion_result)
-            elif deletion_result.startswith("All books removed"):
-                messagebox.showinfo("Success", deletion_result)
+            if deletion_result == "All books with ISBN removed successfully":
+                messagebox.showinfo("Success", "All books deleted successfully!")
                 popup.destroy()
                 refresh_table_callback()
+            else:
+                messagebox.showerror("Error", deletion_result)
 
     ttk.Button(form_frame, text="Delete SKU", command=delete_book_by_sku, style="crimson.TButton").grid(row=2, columnspan=2, pady=10)
     ttk.Button(form_frame, text="Delete All", command=delete_all_books, style="crimson.TButton").grid(row=3, columnspan=2, pady=10)
 
     ttk.Label(form_frame, text="This action cannot be undone.", font=("Calibri", 10, "italic")).grid(row=4, columnspan=2, pady=10)
 
-def open_download_barcodes_popup(app, table, refresh_table_callback):
-    selected_item = get_selected_book(table)
+def open_download_barcodes_popup(app, table):
+    selected_item = table.selection()
     if not selected_item:
         messagebox.showerror("Error", "No book selected!")
         return
+    
+    selected_book = table.item(selected_item)["values"]
+    if not selected_book:
+        messagebox.showerror("Error", "Unable to retrieve selected book data!")
+        return
+    
+    book = {
+        "ISBN": selected_book[0],
+        "Title": str(selected_book[1]),  
+        "SKU": {sku: "date" for sku in selected_book[6].split(",")}
+    }
+    
+    confirm = messagebox.askyesno("Confirmation", f"Do you want to download barcodes for '{book['Title']}'?")
+    if not confirm:
+        return
+    
+    save_file = filedialog.asksaveasfilename(
+        title="Save Barcode PDF",
+        defaultextension=".pdf",
+        filetypes=[("PDF Files", "*.pdf")],
+        initialfile=f"{book['Title'].replace(' ', '_')}_barcodes.pdf"
+    )
 
-    book_isbn = selected_item[1]
-
-    try:
-        result = download_barcodes(book_isbn)
-
-        if result.startswith("Error"):
-            messagebox.showerror("Error", result)
-        else:
-            messagebox.showinfo("Success", result)
-
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred while downloading barcodes: {str(e)}")
+    if save_file:
+        result = download_barcodes(book, save_path=save_file)
+    else:
+        result = download_barcodes(book)
+    if result.startswith("Success"):
+        messagebox.showinfo("Success", result)
+    else:
+        messagebox.showerror("Error", result)
