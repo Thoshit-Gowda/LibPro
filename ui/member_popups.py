@@ -1,11 +1,7 @@
-import threading
-import numpy
 import ttkbootstrap as ttk
 from tkinter import StringVar, messagebox
 import re
 from backend.members import add_member, remove_member, update_member, update_member_details
-import cv2
-from pyzbar.pyzbar import decode
 
 from backend.utils import open_barcode_scanner
 
@@ -50,12 +46,15 @@ def open_add_member_popup(app, refresh_table_callback):
             return
 
         try:
-            add_member(
+            res = add_member(
                 Name=name,
                 Email=email,
                 Password=password,
             )
-            messagebox.showinfo("Success", "Member added successfully!")
+            if "Error:" in res:
+                messagebox.showerror("Error", res)
+            else:
+                messagebox.showinfo("Success", "Member added successfully!")
             refresh_table_callback()
             popup.destroy()
         except ValueError:

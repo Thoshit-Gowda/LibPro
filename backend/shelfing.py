@@ -1,7 +1,12 @@
 from datetime import datetime
 
+from backend.utils import BOOK_SHELF_FILE, DESHELVED_BOOKS_FILE, load_data
+
 BookShelf = []
 DeshelvedBooks = {}
+
+BookShelf = load_data(BOOK_SHELF_FILE)
+DeshelvedBooks = load_data(DESHELVED_BOOKS_FILE)
 
 def categorise(RACK, SHELF, CATEGORY):
     if not RACK or not SHELF or not CATEGORY:

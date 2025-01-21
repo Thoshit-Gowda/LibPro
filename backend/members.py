@@ -13,11 +13,11 @@ def is_valid_email(email):
 
 def add_member(Name, Email, Password):
     if not Name.strip():
-        return "Name is required"
+        return "Error: Name is required"
     if not Email.strip() or not is_valid_email(Email):
-        return "Valid email is required"
+        return "Error: Valid email is required"
     if not Password.strip() or len(Password) < 6:
-        return "Password must be at least 6 characters"
+        return "Error: Password must be at least 6 characters"
     Members.append({
         "UID": len(Members) + 1,
         "Name": Name.strip(),

@@ -1,92 +1,186 @@
 [
     {
-        "ISBN": "9783161484100",
-        "Title": "Python Programming Basics",
-        "Description": "A beginner's guide to Python programming, covering basics to advanced topics.",
+        "ISBN": "9780451524935",
+        "Title": "The Infinite Mind",
+        "Description": "An exploration of human consciousness and the potential of the mind to shape reality.",
+        "Category": "Psychology",
+        "Quantity": 12,
+        "SKU": {
+            "9780451524935-1": "21/01/2025 09:12:15",
+            "9780451524935-2": "21/01/2025 09:12:15",
+            "9780451524935-3": "21/01/2025 09:12:15",
+            "9780451524935-4": "21/01/2025 09:12:15",
+            "9780451524935-5": "21/01/2025 09:12:15",
+            "9780451524935-6": "21/01/2025 09:12:15"
+        },
+        "Author": "Dr. Emma Carter",
+        "Publisher": "MindWorks Press",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9781593279929",
+        "Title": "Code Revolution",
+        "Description": "An insightful guide to mastering coding paradigms and transforming ideas into impactful software.",
         "Category": "Programming",
-        "Quantity": 0,
-        "SKU": {},
-        "Author": "John Doe",
-        "Publisher": "TechBooks Publishing",
-        "Language": "English"
-    },
-    {
-        "ISBN": "9700140449136",
-        "Title": "Meditations",
-        "Description": "A series of personal writings by Marcus Aurelius on Stoic philosophy.",
-        "Category": "Philosophy",
-        "Quantity": 6,
+        "Quantity": 20,
         "SKU": {
-            "9700140449136-4": "15/01/2025 10:24:23",
-            "9700140449136-5": "15/01/2025 10:24:23",
-            "9700140449136-7": "15/01/2025 10:24:23",
-            "9700140449136-8": "15/01/2025 10:24:23",
-            "9700140449136-10": "15/01/2025 10:24:23",
-            "9700140449136-6": "15/01/2025 13:26:33"
+            "9781593279929-1": "21/01/2025 10:45:30",
+            "9781593279929-2": "21/01/2025 10:45:30",
+            "9781593279929-3": "21/01/2025 10:45:30",
+            "9781593279929-4": "21/01/2025 10:45:30"
         },
-        "Author": "Marcus Aurelius",
-        "Publisher": "Penguin Classics",
+        "Author": "Aiden Zhang",
+        "Publisher": "TechSphere Publishing",
         "Language": "English"
     },
     {
-        "ISBN": "9781402894626",
-        "Title": "The Theory of Nothing",
-        "Description": "Stephen Hawking's exploration of the origins and fate of the universe.",
+        "ISBN": "9781250316783",
+        "Title": "Echoes of Eternity",
+        "Description": "A gripping sci-fi novel about humanity's struggle to communicate with an alien civilization.",
+        "Category": "Science Fiction",
+        "Quantity": 8,
+        "SKU": {
+            "9781250316783-1": "21/01/2025 12:30:45",
+            "9781250316783-2": "21/01/2025 12:30:45",
+            "9781250316783-3": "21/01/2025 12:30:45",
+            "9781250316783-4": "21/01/2025 12:30:45"
+        },
+        "Author": "Lena Morgan",
+        "Publisher": "Orbit Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780307278821",
+        "Title": "The Last Kingdom",
+        "Description": "A thrilling historical fiction novel set during the Viking Age.",
+        "Category": "Historical Fiction",
+        "Quantity": 7,
+        "SKU": {
+            "9780307278821-1": "21/01/2025 16:30:10",
+            "9780307278821-2": "21/01/2025 16:30:10",
+            "9780307278821-3": "21/01/2025 16:30:10"
+        },
+        "Author": "Bernard Cornwell",
+        "Publisher": "HarperCollins",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780765382030",
+        "Title": "Galactic Ventures",
+        "Description": "A fast-paced adventure following a crew of misfits on an interstellar mission.",
+        "Category": "Science Fiction",
+        "Quantity": 10,
+        "SKU": {
+            "9780765382030-1": "21/01/2025 17:00:20",
+            "9780765382030-2": "21/01/2025 17:00:20",
+            "9780765382030-3": "21/01/2025 17:00:20"
+        },
+        "Author": "Elliot Graves",
+        "Publisher": "Tor Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780143110439",
+        "Title": "Art of the Unknown",
+        "Description": "A beautifully illustrated book exploring the mysteries of art and its connection to human emotion.",
+        "Category": "Art",
+        "Quantity": 9,
+        "SKU": {
+            "9780143110439-1": "21/01/2025 18:20:45",
+            "9780143110439-2": "21/01/2025 18:20:45",
+            "9780143110439-3": "21/01/2025 18:20:45"
+        },
+        "Author": "Clara Vance",
+        "Publisher": "Penguin Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9781524763169",
+        "Title": "The Quantum Paradox",
+        "Description": "A deep dive into the perplexing world of quantum physics and its implications for our understanding of reality.",
         "Category": "Science",
-        "Quantity": 13,
+        "Quantity": 14,
         "SKU": {
-            "9781402894626-1": "15/01/2025 10:25:55",
-            "9781402894626-2": "15/01/2025 10:25:55",
-            "9781402894626-3": "15/01/2025 10:25:55",
-            "9781402894626-4": "15/01/2025 10:25:55",
-            "9781402894626-5": "15/01/2025 10:25:55",
-            "9781402894626-6": "15/01/2025 10:25:55",
-            "9781402894626-7": "15/01/2025 10:25:55",
-            "9781402894626-8": "15/01/2025 10:25:55",
-            "9781402894626-10": "15/01/2025 10:25:55",
-            "9781402894626-11": "15/01/2025 10:25:55",
-            "9781402894626-12": "15/01/2025 10:25:55"
+            "9781524763169-1": "21/01/2025 19:10:15",
+            "9781524763169-2": "21/01/2025 19:10:15",
+            "9781524763169-3": "21/01/2025 19:10:15"
         },
-        "Author": "Stephen Hawking",
-        "Publisher": "Bantam Books",
+        "Author": "Dr. Philip Hayes",
+        "Publisher": "Random House",
         "Language": "English"
     },
     {
-        "ISBN": "123213",
-        "Title": "Thejas",
-        "Description": "Nothingness",
-        "Category": "Fiction",
-        "Quantity": 0,
-        "SKU": {},
-        "Author": "Pratham",
-        "Publisher": "Thoshit Anna Books Pvt. Ltd.",
-        "Language": "Python"
-    },
-    {
-        "ISBN": "12321321313",
-        "Title": "Thejas",
-        "Description": "Thoshitism, Prathamism, Thejasism",
-        "Category": "Fiction",
-        "Quantity": 0,
-        "SKU": {},
-        "Author": "Pratham",
-        "Publisher": "Pythonambe Books Pvt. Ltd",
-        "Language": "Pythonambe"
-    },
-    {
-        "ISBN": "1231231231",
-        "Title": "asd",
-        "Description": "sdada",
-        "Category": "asdasda",
-        "Quantity": 4,
+        "ISBN": "9780062457714",
+        "Title": "Gardens of Serenity",
+        "Description": "A guide to creating beautiful, sustainable gardens that promote peace and mindfulness.",
+        "Category": "Gardening",
+        "Quantity": 11,
         "SKU": {
-            "1231231231-1": "15/01/2025 21:06:58",
-            "1231231231-2": "15/01/2025 21:06:58",
-            "1231231231-3": "15/01/2025 21:06:58",
-            "1231231231-4": "15/01/2025 21:06:58"
+            "9780062457714-1": "21/01/2025 20:00:30",
+            "9780062457714-2": "21/01/2025 20:00:30",
+            "9780062457714-3": "21/01/2025 20:00:30"
         },
-        "Author": "dsad",
-        "Publisher": "asdasd",
-        "Language": "adsada"
+        "Author": "Lila Henderson",
+        "Publisher": "GreenEarth Publishing",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780316015844",
+        "Title": "The Silent Betrayal",
+        "Description": "A gripping thriller about trust, deception, and the lengths one will go for the truth.",
+        "Category": "Thriller",
+        "Quantity": 5,
+        "SKU": {
+            "9780316015844-1": "21/01/2025 20:45:55",
+            "9780316015844-2": "21/01/2025 20:45:55"
+        },
+        "Author": "Alex Monroe",
+        "Publisher": "Mystic Press",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9781451648539",
+        "Title": "The Art of Happiness",
+        "Description": "A guide to understanding and cultivating true happiness in life, written by the Dalai Lama.",
+        "Category": "Self-Help",
+        "Quantity": 15,
+        "SKU": {
+            "9781451648539-1": "21/01/2025 21:00:30",
+            "9781451648539-2": "21/01/2025 21:00:30",
+            "9781451648539-3": "21/01/2025 21:00:30"
+        },
+        "Author": "Dalai Lama",
+        "Publisher": "Riverhead Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780062276316",
+        "Title": "The Midnight Library",
+        "Description": "A poignant story of a woman who explores alternate lives through a magical library.",
+        "Category": "Fiction",
+        "Quantity": 16,
+        "SKU": {
+            "9780062276316-1": "21/01/2025 22:15:45",
+            "9780062276316-2": "21/01/2025 22:15:45",
+            "9780062276316-3": "21/01/2025 22:15:45"
+        },
+        "Author": "Matt Haig",
+        "Publisher": "Penguin Books",
+        "Language": "English"
+    },
+    {
+        "ISBN": "9780452295264",
+        "Title": "Sapiens: A Brief History of Humankind",
+        "Description": "A thought-provoking exploration of the history of humanity from the dawn of Homo sapiens.",
+        "Category": "History",
+        "Quantity": 10,
+        "SKU": {
+            "9780452295264-1": "21/01/2025 23:05:20",
+            "9780452295264-2": "21/01/2025 23:05:20",
+            "9780452295264-3": "21/01/2025 23:05:20"
+        },
+        "Author": "Yuval Noah Harari",
+        "Publisher": "Harvill Secker",
+        "Language": "English"
     }
 ]

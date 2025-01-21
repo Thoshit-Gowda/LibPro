@@ -217,10 +217,10 @@ def open_delete_book_popup(app, table, refresh_table_callback):
 
             result = remove_books(sku)
 
-            if result == "No Book found" or result == "SKU not found in the book's SKU list":
+            if "Error:" in result:
                 messagebox.showerror("Error", result)
             else:
-                messagebox.showinfo("Success", "Book deleted successfully!")
+                messagebox.showinfo("Success", result)
                 refresh_table_callback()
             popup.destroy()
 
