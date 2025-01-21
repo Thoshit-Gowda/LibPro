@@ -91,6 +91,7 @@ def open_search_popup(app):
 
 
 def open_deshelve_popup(app, update_shelf_view):
+    sku_var = StringVar()
     def deshelve_book():
         sku = sku_entry.get()
 
@@ -109,12 +110,15 @@ def open_deshelve_popup(app, update_shelf_view):
 
     popup = tk.Toplevel(app)
     popup.title("Deshelve Book")
+    def start_scanning():
+        open_barcode_scanner(sku_var) 
 
     tk.Label(popup, text="Enter SKU").grid(row=0, column=0, padx=10, pady=5)
-    sku_entry = tk.Entry(popup)
+    sku_entry = tk.Entry(popup, textvariable=sku_var)
     sku_entry.grid(row=0, column=1, padx=10, pady=5)
 
-    ttk.Button(popup, text="Deshelve", command=deshelve_book, style="crimson.TButton").grid(row=1, column=0, columnspan=2, pady=10)
+    ttk.Button(popup, text="Scan Barcode", command=start_scanning, style="crimson.TButton").grid(row=1, column=0, columnspan=2, pady=20)
+    ttk.Button(popup, text="Deshelve", command=deshelve_book, style="crimson.TButton").grid(row=2, column=0, columnspan=2, pady=10)
 
 
 def open_categorise_popup(app, update_shelf_view):
@@ -233,8 +237,8 @@ def shelf_manage(app):
     ttk.Button(right_frame, text="Shelve Book", command=lambda: open_shelve_popup(app,update_shelf_view), style="crimson.TButton").grid(row=1, column=0, pady=10)
     ttk.Button(right_frame, text="Search Book", command=lambda: open_search_popup(app), style="crimson.TButton").grid(row=2, column=0, pady=10)
     ttk.Button(right_frame, text="Deshelve Book", command=lambda: open_deshelve_popup(app,update_shelf_view), style="crimson.TButton").grid(row=3, column=0, pady=10)
-    ttk.Button(right_frame, text="View Deshelved Books", command=lambda: show_deshelved_books(), style="crimson.TButton").grid(row=3, column=0, pady=10)
-    ttk.Button(right_frame, text="Dashboard", command=lambda: back_to_dashboard(app), style="crimson.TButton").grid(row=4, column=0, pady=50)
+    ttk.Button(right_frame, text="View Deshelved Books", command=lambda: show_deshelved_books(), style="crimson.TButton").grid(row=4, column=0, pady=10)
+    ttk.Button(right_frame, text="Dashboard", command=lambda: back_to_dashboard(app), style="crimson.TButton").grid(row=5, column=0, pady=50)
 
     app.grid_rowconfigure(0, weight=1)
     app.grid_columnconfigure(0, weight=1)

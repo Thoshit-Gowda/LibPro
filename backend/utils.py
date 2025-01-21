@@ -29,10 +29,18 @@ def clear_fields(*vars):
         var.set("")
 
 def open_barcode_scanner(sku_var):
-    cap = cv2.VideoCapture(0)
+    def get_available_camera():
+        for camera_id in range(10):
+            cap = cv2.VideoCapture(camera_id)
+            if cap.isOpened():
+                return cap
+            cap.release()
+        return None
 
-    if not cap.isOpened():
-        messagebox.showerror("Error", "Could not access the webcam.")
+    cap = get_available_camera()
+
+    if not cap:
+        messagebox.showerror("Error", "No available camera found.")
         return
 
     line_position = 0

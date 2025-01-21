@@ -1,29 +1,122 @@
 [
     {
         "UID": 1,
-        "Name": "Thejas",
-        "Email": "pthejasrao@gmail.com",
-        "Password": "asdasd",
+        "Name": "Thejas P Rao",
+        "Email": "thejas@gmail.com",
+        "Password": "thejas456",
         "SKU": {},
+        "Wishlist": [],
         "JoinedOn": "15/01/2025 11:24:23"
     },
     {
         "UID": 2,
-        "Name": "Thoshit",
-        "Email": "thoshit@gmial.com",
-        "Password": "123123123",
+        "Name": "Thoshit Gowda",
+        "Email": "thoshit@gmail.com",
+        "Password": "thoshit789",
         "SKU": {},
+        "Wishlist": [],
         "JoinedOn": "15/01/2025 12:10:27"
     },
     {
         "UID": 3,
-        "Name": "Thejas P Rao",
-        "Email": "pthejasrao@gmail.com",
-        "Password": "123456789",
+        "Name": "Pratham S",
+        "Email": "pratham@gmail.com",
+        "Password": "pratham123",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "16/01/2025 00:13:02"
+    },
+    {
+        "UID": 4,
+        "Name": "Akash Singh",
+        "Email": "akash.singh@mail.com",
+        "Password": "akashSecure12",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "17/01/2025 10:45:00"
+    },
+    {
+        "UID": 5,
+        "Name": "Megha Verma",
+        "Email": "megha.verma@mail.com",
+        "Password": "meghaStrongPass9",
         "SKU": {},
         "Wishlist": [
-            "9781402894626"
+            "9780765382030",
+            "9780316015844"
         ],
-        "JoinedOn": "16/01/2025 00:13:02"
+        "JoinedOn": "18/01/2025 15:30:10"
+    },
+    {
+        "UID": 6,
+        "Name": "Rahul Sharma",
+        "Email": "rahul.sharma@mail.com",
+        "Password": "rahul987654",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "19/01/2025 14:20:45"
+    },
+    {
+        "UID": 7,
+        "Name": "Neha Desai",
+        "Email": "neha.desai@mail.com",
+        "Password": "nehaPassword123",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "20/01/2025 09:15:33"
+    },
+    {
+        "UID": 8,
+        "Name": "Vikram Patel",
+        "Email": "vikram.patel@mail.com",
+        "Password": "vikramPass987",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "21/01/2025 13:40:10"
+    },
+    {
+        "UID": 9,
+        "Name": "Sanya Roy",
+        "Email": "sanya.roy@mail.com",
+        "Password": "sanyaSecure987",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "21/01/2025 16:30:20"
+    },
+    {
+        "UID": 10,
+        "Name": "Arjun Mehta",
+        "Email": "arjun.mehta@mail.com",
+        "Password": "arjunMehta321",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "22/01/2025 10:12:45"
+    },
+    {
+        "UID": 11,
+        "Name": "Ritika Sharma",
+        "Email": "ritika.sharma@mail.com",
+        "Password": "ritikaPass998",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "22/01/2025 14:03:33"
+    },
+    {
+        "UID": 12,
+        "Name": "Ankit Kumar",
+        "Email": "ankit.kumar@mail.com",
+        "Password": "ankitSecure567",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "23/01/2025 11:22:01"
+    },
+    {
+        "UID": 13,
+        "Name": "Pooja Bansal",
+        "Email": "pooja.bansal@mail.com",
+        "Password": "poojaPass654",
+        "SKU": {},
+        "Wishlist": [],
+        "JoinedOn": "23/01/2025 17:45:33"
     }
 ]
