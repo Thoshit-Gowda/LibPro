@@ -4,7 +4,9 @@
         "Name": "Thejas P Rao",
         "Email": "thejas@gmail.com",
         "Password": "thejas456",
-        "SKU": {},
+        "SKU": {
+            "9780307278821-6": "14/02/2025 00:10:47"
+        },
         "Wishlist": [],
         "JoinedOn": "15/01/2025 11:24:23"
     },

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import ttkbootstrap as ttk
 from backend.books import read_book
 from ui.client import dashboard
@@ -49,14 +49,15 @@ def view_borrowed_books(app, member):
     style = ttk.Style()
     style.configure('hover.TFrame', background='#f0f0f0', borderwidth=0)
 
-    if len(member["SKU"])>0:
-        for sku, duedate in member["SKU"]:
-            days_late = abs((datetime.now() - duedate).days)
+    if len(member["SKU"]) > 0:
+        for sku, duedate in member["SKU"].items():
+            days_late = (datetime.now() - datetime.strptime(duedate, "%d/%m/%Y %H:%M:%S")).days
+            day_text = "days late" if days_late > 0 else "days left"
 
-            isbn = (str(sku).split("-")[0]).strip()
+            isbn = str(sku).split("-")[0].strip()
             book = read_book(isbn)
 
-            book_frame = ttk.Frame(scrollable_frame, padding=10, style="default.TFrame")
+            book_frame = ttk.Frame(scrollable_frame, padding=10)
             book_frame.pack(fill="x", pady=(0, 1))
 
             def on_hover(e, frame=book_frame):
@@ -77,7 +78,7 @@ def view_borrowed_books(app, member):
 
             ttk.Label(
                 book_frame,
-                text=f"Due by: {duedate} ({days_late} days)",
+                text=f"Status: {abs(days_late)} {day_text}",
                 font=("Helvetica", 10),
             ).pack(anchor="w", padx=5)
     else:
