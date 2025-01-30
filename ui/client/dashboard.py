@@ -36,7 +36,7 @@ def welcome_screen(app, member):
     left_frame = ttk.Frame(form_frame, padding=20)
     left_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
     
-    ttk.Label(left_frame, text="LibAmma", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
+    ttk.Label(left_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
     ttk.Label(left_frame, text="A Library App.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
 
     time_label = ttk.Label(left_frame, font=("Arial", 12))

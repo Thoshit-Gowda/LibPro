@@ -29,6 +29,7 @@ def clear_fields(*vars):
         var.set("")
 
 def open_barcode_scanner(sku_var):
+    sku_var.set(None)
     def get_available_camera():
         for camera_id in range(10):
             cap = cv2.VideoCapture(camera_id)

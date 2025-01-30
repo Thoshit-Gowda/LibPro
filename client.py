@@ -16,7 +16,7 @@ def on_close():
 app = ttk.Window(themename="darkly")
 app.geometry("1200x800") 
 app.state('zoomed')
-app.title(f"{APP_NAME} | A Library App")
+app.title("LibPro | A Library App")
 
 app.protocol("WM_DELETE_WINDOW", on_close)
 

@@ -16,7 +16,7 @@ def login_screen(app):
     
     ttk.Label(branding_frame, anchor="center").pack(pady=70)
 
-    ttk.Label(branding_frame, text="LibAmma", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
+    ttk.Label(branding_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
 
     ttk.Label(branding_frame, text="A Library App.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
 

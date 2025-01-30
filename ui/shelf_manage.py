@@ -7,7 +7,7 @@ def back_to_dashboard(app):
     from ui.dashboard import welcome_screen
     
     for widget in app.winfo_children():
-        widget.grid_forget()
+        widget.destroy()
 
     welcome_screen(app)
 

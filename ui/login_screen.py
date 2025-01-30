@@ -2,8 +2,13 @@ import ttkbootstrap as ttk
 from tkinter import messagebox
 import tkinter as tk
 
-from constants import ADMIN_CREDENTIALS
 from ui.dashboard import welcome_screen
+
+ADMIN_CREDENTIALS = {
+    "Pratham": "123",
+    "Thejas": "456",
+    "Thoshit": "789",
+}
 
 def login_screen(app):
     global login_frame, username_var, password_var
@@ -16,7 +21,7 @@ def login_screen(app):
     
     ttk.Label(branding_frame, anchor="center").pack(pady=70)
 
-    ttk.Label(branding_frame, text="LibAmma", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
+    ttk.Label(branding_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
 
     ttk.Label(branding_frame, text="Library Management App", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
 

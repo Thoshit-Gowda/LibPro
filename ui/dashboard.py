@@ -2,9 +2,9 @@ import time
 from tkinter import messagebox
 import ttkbootstrap as ttk
 
+from ui.books_manage import books_manage
 from ui.shelf_manage import shelf_manage
 from ui.membership_manage import membership_manage
-from ui.books_manage import books_manage
 
 def update_time(label):
     current_time = time.strftime("%H:%M:%S")
@@ -54,7 +54,7 @@ def welcome_screen(app):
     left_frame = ttk.Frame(form_frame, padding=20)
     left_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
     
-    ttk.Label(left_frame, text="LibAmma", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
+    ttk.Label(left_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
     ttk.Label(left_frame, text="Library Management App", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
 
     time_label = ttk.Label(left_frame, font=("Arial", 12))
