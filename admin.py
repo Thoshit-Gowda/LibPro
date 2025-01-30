@@ -1,6 +1,6 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
-from admin.login_screen import login_screen
+from ui.login_screen import login_screen
 
 def on_close():
     if messagebox.askyesno("Exit", "Are you sure you want to exit?"):

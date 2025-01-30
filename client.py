@@ -2,7 +2,6 @@ from tkinter import messagebox
 import ttkbootstrap as ttk
 from backend.utils import BOOKS_FILE, MEMBERS_FILE, save_data
 from ui.client.login_screen import login_screen
-from constants import APP_NAME
 from backend.books import Books
 from backend.members import Members
 
