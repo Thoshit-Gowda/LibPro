@@ -3,6 +3,7 @@ import ttkbootstrap as ttk
 import tkinter as tk
 from tkinter import StringVar, messagebox
 from backend.books import add_book, download_barcodes, update_books, remove_books
+from backend.utils import open_barcode_scanner
 
 def get_selected_book(table):
     selected = table.focus()
@@ -205,16 +206,13 @@ def open_delete_book_popup(app, table, refresh_table_callback):
     sku_entry.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
 
     def delete_book_by_sku():
-        sku_number = sku_var.get().strip()
+        sku = sku_var.get().strip()
 
-        if not sku_number:
+        if not sku:
             messagebox.showerror("Error", "Please enter a valid SKU number.")
             return
 
         try:
-            sku_list = table.item(selected_item)["values"][6].split(",")
-            sku = sku_list[int(sku_number) - 1]
-
             result = remove_books(sku)
 
             if "Error:" in result:
@@ -243,10 +241,11 @@ def open_delete_book_popup(app, table, refresh_table_callback):
             else:
                 messagebox.showerror("Error", deletion_result)
 
-    ttk.Button(form_frame, text="Delete SKU", command=delete_book_by_sku, style="crimson.TButton").grid(row=2, columnspan=2, pady=10)
-    ttk.Button(form_frame, text="Delete All", command=delete_all_books, style="crimson.TButton").grid(row=3, columnspan=2, pady=10)
+    ttk.Button(form_frame, text="Scan Barcode", command=lambda:open_barcode_scanner(sku_var), style="crimson.TButton").grid(row=2, columnspan=2, pady=10)
+    ttk.Button(form_frame, text="Delete SKU", command=delete_book_by_sku, style="crimson.TButton").grid(row=3, columnspan=2, pady=10)
+    ttk.Button(form_frame, text="Delete All", command=delete_all_books, style="crimson.TButton").grid(row=4, columnspan=2, pady=10)
 
-    ttk.Label(form_frame, text="This action cannot be undone.", font=("Calibri", 10, "italic")).grid(row=4, columnspan=2, pady=10)
+    ttk.Label(form_frame, text="This action cannot be undone.", font=("Calibri", 10, "italic")).grid(row=5, columnspan=2, pady=10)
 
 def open_download_barcodes_popup(app, table):
     selected_item = table.selection()
