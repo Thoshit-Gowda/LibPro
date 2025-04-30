@@ -25,7 +25,8 @@ def add_member(Name, Email, Password):
         "Password": Password.strip(),
         "SKU": {},
         "Wishlist": [],
-        "JoinedOn": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        "JoinedOn": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+        "BookMarks": 0 
     })
     return "Member added successfully"
 
@@ -68,6 +69,7 @@ def update_member(UID, SKU, ADD_BOOK, fine_paid=False):
                     for member in Members:
                         if member["UID"] == int(UID):
                             member["SKU"][SKU] = future_date
+                            member["BookMarks"] = bookmarks(SKU)
                             return "Book borrowed successfully"
         return "The book you are searching for is not available"
     else:
@@ -157,3 +159,26 @@ def manage_wishlist(ADD, UID, ISBN):
             return "Success"
     
     return "Error: UID is Invalid"
+
+def bookmarks(SKU):
+
+    if not SKU:
+      return "Error:invalid sku encountered while awarding bookmarks"
+
+    else:
+        ISBN = str(SKU).split("-")[0]
+        for book in Books:
+            if str(book["ISBN"]) == ISBN:
+                genre = books["Category"]
+                if genre in("Fiction", "Mystery", "Wellness", 
+                "Romance", "Graphic Novels","Children’s Books"):
+                   return 10
+
+                elif genre in ("Local Authors","Classics", "Philosophy","Science & Tech","Biography",
+                "Historical Fiction", "Non-Fiction", "Poetry","Fantasy", "Science Fiction"):
+                   return 15
+
+                else: return "Error: genre no in database"
+
+
+                    

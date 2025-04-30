@@ -2,18 +2,6 @@ from tkinter import ttk, messagebox
 from ui.book_popups import open_add_book_popup, open_download_barcodes_popup, update_book_popup, open_delete_book_popup
 from backend.books import Books, read_book
 
-def back_to_dashboard(app):    
-    from ui.dashboard import welcome_screen
-
-    if not app:
-        messagebox.showerror("Error", "Application instance not found.")
-        return
-    
-    for widget in app.winfo_children():
-        widget.grid_forget()
-
-    welcome_screen(app)
-
 def books_manage(app):
     global table, table_frame
 
@@ -49,7 +37,6 @@ def books_manage(app):
     ttk.Button(button_frame, text="Update Book", command=lambda: open_update_book_popup(app), style="crimson.TButton").pack(fill="x", pady=5)
     ttk.Button(button_frame, text="Delete Book", command=lambda: open_delete_book_popup(app, table, display_books), style="crimson.TButton").pack(fill="x", pady=5)
     ttk.Button(button_frame, text="Download Barcode", command=lambda: open_download_barcodes_popup(app, table), style="crimson.TButton").pack(fill="x", pady=5)
-    ttk.Button(button_frame, text="Dashboard", command=lambda: back_to_dashboard(app), style="crimson.TButton").pack(fill="x", pady=50)
 
     app.grid_columnconfigure(0, weight=3)
     app.grid_columnconfigure(1, weight=1)

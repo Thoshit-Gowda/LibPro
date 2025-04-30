@@ -20,7 +20,7 @@ def logout(app):
         login_screen(app)
 
 
-def welcome_screen(app, member):
+def client_dashboard(app, member):
     def view_profile():
         messagebox.showinfo("Your Profile", f"Name: {member["Name"]}\nEmail ID: {member["Email"]}\nBooks Taken(SKUs): {member["SKU"]}\nWishlist(ISBNs): {member["Wishlist"]}\n\nUnique ID: {member["UID"]}\nMembership Since: {member["JoinedOn"]}")
     global welcome_frame

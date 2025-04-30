@@ -1,5 +1,5 @@
 from datetime import datetime
-from backend.utils import load_data, BOOKS_FILE
+from backend.utils import load_data, BOOKS_FILE, MEMBERS_FILE
 import os
 import shutil
 from barcode import Code128
@@ -9,6 +9,7 @@ from reportlab.pdfgen import canvas
 
 
 Books = load_data(BOOKS_FILE)
+Members = load_data(MEMBERS_FILE)
 
 def is_valid_isbn(isbn):
     return len(isbn) == 10 or len(isbn) == 13 and isbn.isdigit()
@@ -40,6 +41,8 @@ def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, La
             "Author": Author,
             "Publisher": Publisher,
             "Language": Language,
+            "Reviews" : []
+
         })
         return "Book re-added as a new entry"
 
@@ -68,6 +71,7 @@ def add_book(ISBN, Title, Description, Category, Quantity, Author, Publisher, La
         "Author": Author,
         "Publisher": Publisher,
         "Language": Language,
+        "Reviews" : []
     })
     return "Book added successfully"
 
@@ -188,3 +192,21 @@ def read_book(ISBN):
         if book["ISBN"] == ISBN:
             return book
     return "No book found"
+
+def review(UID,SKU,REVIEW,RATINGS):
+    ISBN = str(SKU).split("-")[0]
+    if not ISBN or not is_valid_isbn(ISBN) or not REVIEW or not RATINGS:
+        return "Invalid SKU input."
+
+    for book in Books:
+        if book["ISBN"] == ISBN:
+            for member in Members:
+                if member["UID"] == UID:
+                    name = member["Name"]
+                    book["Review"].append({
+                        "User" : str(name),
+                        "Review" : str(REVIEW),
+                        "Ratings" : RATINGS 
+                    })
+                else:  return "Member not found"   
+        else: return "Book not found"            

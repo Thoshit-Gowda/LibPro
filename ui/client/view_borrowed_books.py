@@ -1,17 +1,16 @@
 from datetime import datetime
 import ttkbootstrap as ttk
 from backend.books import read_book
-from ui.client import dashboard
 
 ACCENT_COLOR = "#dc143c"
 
 def view_borrowed_books(app, member):
     def go_to_dashboard():
         main_frame.pack_forget()
-        dashboard.welcome_screen(app, member)
+        #dashboard.welcome_screen(app, member)
 
-    for widget in app.winfo_children():
-        widget.destroy()
+    #for widget in app.winfo_children():
+    #    widget.destroy()
 
     main_frame = ttk.Frame(app, padding=30)
     main_frame.pack(fill="both", expand=True)

@@ -2,7 +2,6 @@ from tkinter import messagebox
 import ttkbootstrap as ttk
 from backend.books import read_book
 from backend.members import manage_wishlist
-from ui.client import dashboard
 
 ACCENT_COLOR = "#dc143c"
 
@@ -20,10 +19,10 @@ def wishlist(app, member):
     def show_main_page():
         def go_to_dashboard():
             main_frame.pack_forget()
-            dashboard.welcome_screen(app, member)
+            #dashboard.welcome_screen(app, member)
     
-        for widget in app.winfo_children():
-            widget.destroy()
+        #for widget in app.winfo_children():
+        #    widget.destroy()
 
         main_frame = ttk.Frame(app, padding=30)
         main_frame.pack(fill="both", expand=True)

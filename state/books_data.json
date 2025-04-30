@@ -277,5 +277,22 @@
         "Author": "Yuval Noah Harari",
         "Publisher": "Harvill Secker",
         "Language": "English"
+    },
+    {
+        "ISBN": "9780307744432",
+        "Title": "The Night Circus",
+        "Description": "A mysterious, magical competition between two illusionists unfolds within a mesmerizing, nocturnal circus.",
+        "Category": "Fantasy",
+        "Quantity": 5,
+        "SKU": {
+            "9780307744432-1": "31/01/2025 11:13:16",
+            "9780307744432-2": "31/01/2025 11:13:16",
+            "9780307744432-3": "31/01/2025 11:13:16",
+            "9780307744432-4": "31/01/2025 11:13:16",
+            "9780307744432-5": "31/01/2025 11:13:16"
+        },
+        "Author": "Erin Morgenstern",
+        "Publisher": "Anchor Books (2012)",
+        "Language": "English"
     }
 ]

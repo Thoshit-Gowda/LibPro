@@ -1,84 +1,29 @@
-import time
-from tkinter import messagebox
-import ttkbootstrap as ttk
+from tkinter import ttk, messagebox
+from ui.book_popups import open_add_book_popup, open_download_barcodes_popup, update_book_popup, open_delete_book_popup
+from backend.books import Books, read_book
 
-from ui.books_manage import books_manage
-from ui.shelf_manage import shelf_manage
-from ui.membership_manage import membership_manage
-
-def update_time(label):
-    current_time = time.strftime("%H:%M:%S")
-    current_date = time.strftime("%A, %B %d, %Y")
-    label.config(text=f"Current Time: {current_time}\n{current_date}")
-    label.after(1000, update_time, label)
-
-def open_book_management(app):
+def admin_dashboard(app, user):
     if not app:
         messagebox.showerror("Error", "Application instance not found.")
         return
-    welcome_frame.pack_forget()
-    books_manage(app)
 
-def open_rack_management(app):
-    if not app:
-        messagebox.showerror("Error", "Application instance not found.")
-        return
-    welcome_frame.pack_forget()
-    shelf_manage(app)
+    header = ttk.Frame(app)
+    header.pack(fill="x")
 
-def logout(app):
-    res = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?")
-    if res:
-        from ui.login_screen import login_screen
-        welcome_frame.pack_forget()
-        login_screen(app)
+    label = ttk.Label(header, text="Hello, "f"{user}!", font=("Gotham Bold", 20, "bold"))
+    label.pack(side="left", padx=10, pady=25)
 
-def open_membership_management(app):
-    if not app:
-        messagebox.showerror("Error", "Application instance not found.")
-        return
-    welcome_frame.pack_forget()
-    membership_manage(app)
+    stats_frame = ttk.Frame(app, height=100)
+    stats_frame.pack(fill="x", pady=50)
 
-def welcome_screen(app):
-    global welcome_frame
-    if not app:
-        messagebox.showerror("Error", "Application instance not found.")
-        return
-    welcome_frame = ttk.Frame(app, padding=30)
-    welcome_frame.pack(expand=True, fill="both", pady=100)
+    users_frame = ttk.Frame(stats_frame, height=100, width=100,style="My.TFrame")
+    users_frame.pack(padx=50, fill="y")
 
-    form_frame = ttk.Frame(welcome_frame)
-    form_frame.pack(fill="both", expand=True)
+    users_label = ttk.Label(users_frame, text="Total Users")
+    users_label.pack(expand=True)
 
-    left_frame = ttk.Frame(form_frame, padding=20)
-    left_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-    
-    ttk.Label(left_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
-    ttk.Label(left_frame, text="Library Management App", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
+    books_frame = ttk.Frame(stats_frame, height=100, width=100, style="My.TFrame")
+    users_frame.pack(padx=50, fill="y")
 
-    time_label = ttk.Label(left_frame, font=("Arial", 12))
-    time_label.pack(pady=10)
-    update_time(time_label)
-
-    greeting_label = ttk.Label(left_frame, text="Welcome Admin!", font=("Arial", 10, "bold"))
-    greeting_label.pack(pady=10)
-
-    right_frame = ttk.Frame(form_frame, padding=20)
-    right_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
-
-    book_management_button = ttk.Button(right_frame, text="Books Management", command=lambda: open_book_management(app), style="crimson.TButton")
-    book_management_button.pack(pady=10, fill="x")
-    
-    book_rack_management_button = ttk.Button(right_frame, text="Book Rack Management", command=lambda: open_rack_management(app), style="crimson.TButton")
-    book_rack_management_button.pack(pady=10, fill="x")
-
-    membership_management_button = ttk.Button(right_frame, text="Membership Management", command=lambda: open_membership_management(app), style="crimson.TButton")
-    membership_management_button.pack(pady=10, fill="x")
-
-    logout_button = ttk.Button(right_frame, text="Logout", command=lambda: logout(app), style="crimson.TButton")
-    logout_button.pack(pady=50, fill="both")
-
-    form_frame.grid_columnconfigure(0, weight=1)
-    form_frame.grid_columnconfigure(1, weight=1)
-    form_frame.grid_rowconfigure(0, weight=1)
+    books_label = ttk.Label(books_frame, text="Total Books")
+    books_label.pack(expand=True)

@@ -1,8 +1,9 @@
 import ttkbootstrap as ttk
 from tkinter import messagebox
 import tkinter as tk
+from ui.main_screen import welcome_screen
+from PIL import Image, ImageTk
 
-from ui.dashboard import welcome_screen
 
 ADMIN_CREDENTIALS = {
     "Pratham": "123",
@@ -18,17 +19,21 @@ def login_screen(app):
 
     branding_frame = ttk.Frame(login_frame, padding=20)
     branding_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
+
+    image_path = "./library-management/backend/Branding_image.png"
+    img = Image.open(image_path)
+    img = img.resize((450, 450))
+    photo = ImageTk.PhotoImage(img)
+
+    Img1 = tk.Label(branding_frame, image=photo, bg="#1e1e1e")
+    Img1.image = photo  
+    Img1.place(relx=0.5, rely=0.5, anchor="center")
+    Img1.pack(expand=True, pady=40)
     
     ttk.Label(branding_frame, anchor="center").pack(pady=70)
 
-    ttk.Label(branding_frame, text="LibPro", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
-
-    ttk.Label(branding_frame, text="Library Management App", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
-
-    ttk.Label(branding_frame, text="By Pratham, Thejas and Thoshit.", font=("Arial", 12), anchor="center").pack(pady=50)
-
     login_section = ttk.Frame(login_frame, padding=20)
-    login_section.pack(side="right", fill="both", expand=True, padx=20, pady=20)
+    login_section.pack(side="right", fill="both", expand=True, padx=10, pady=20)
 
     canvas = tk.Canvas(login_section, highlightthickness=0)
     canvas.pack(fill="both", expand=True)
@@ -46,7 +51,7 @@ def login_screen(app):
     form_frame = ttk.Frame(canvas)
     canvas.create_window(width // 2, height // 2, window=form_frame, anchor="center")
 
-    ttk.Label(form_frame, text="Admin Login", font=("Cambria", 30, "bold")).pack(pady=20)
+    ttk.Label(form_frame, text="Login", font=("Gotham Bold", 40, "bold")).pack(pady=20)
 
     ttk.Label(form_frame, text="Username:", font=("Century Gothic", 14)).pack(anchor="w", pady=5)
     username_var = ttk.StringVar()
@@ -72,6 +77,7 @@ def validate_login(app):
     if username in ADMIN_CREDENTIALS and ADMIN_CREDENTIALS[username] == password:
         messagebox.showinfo("Success", "Login successful!")
         login_frame.pack_forget()
-        welcome_screen(app)
+        welcome_screen(app, username)  #Thought of adding a argument for the data of the user or the admin.
+        #Sent username to check if everything is working fine.
     else:
         messagebox.showerror("Error", "Invalid username or password.")
