@@ -78,6 +78,6 @@ def validate_login(app):
         messagebox.showinfo("Success", "Login successful!")
         login_frame.pack_forget()
         welcome_screen(app, username)  #Thought of adding a argument for the data of the user or the admin.
-        #Sent username to check if everything is working fine.
+        
     else:
         messagebox.showerror("Error", "Invalid username or password.")
