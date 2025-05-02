@@ -31,7 +31,7 @@ style.configure("crimson.TButton",
                 focusthickness=0)
 
 style1 = ttk.Style()
-style1.configure("My.TFrame", background="#101010")
+style1.configure("My.TFrame", background="#1E1E1E")
 
 login_screen(app)
 app.mainloop()

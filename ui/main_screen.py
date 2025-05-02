@@ -103,7 +103,7 @@ def welcome_screen(app, user):
         messagebox.showerror("Error", "Application instance not found.")
         return    
 
-    image_path = "./library-management/backend/LibPro_logo.png"
+    image_path = "./backend/LibPro_logo.png"
     img = Image.open(image_path)
     img = img.resize((150, 55))
     photo = ImageTk.PhotoImage(img)

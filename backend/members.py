@@ -8,6 +8,10 @@ from backend.utils import MEMBERS_FILE, load_data
 Members = []
 Members = load_data(MEMBERS_FILE)
 
+borrowed_books = 0
+for member in Members:
+    borrowed_books = int(borrowed_books) + len(member["SKU"])
+
 def is_valid_email(email):
     return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
 

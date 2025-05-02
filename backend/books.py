@@ -11,6 +11,10 @@ from reportlab.pdfgen import canvas
 Books = load_data(BOOKS_FILE)
 Members = load_data(MEMBERS_FILE)
 
+available_books = 0
+for book in Books:
+    available_books = int(available_books) + int(book["Quantity"])
+
 def is_valid_isbn(isbn):
     return len(isbn) == 10 or len(isbn) == 13 and isbn.isdigit()
 

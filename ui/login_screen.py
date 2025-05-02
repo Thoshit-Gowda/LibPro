@@ -2,6 +2,7 @@ import ttkbootstrap as ttk
 from tkinter import messagebox
 import tkinter as tk
 from ui.main_screen import welcome_screen
+from backend.members import sign_in
 from PIL import Image, ImageTk
 
 
@@ -20,7 +21,7 @@ def login_screen(app):
     branding_frame = ttk.Frame(login_frame, padding=20)
     branding_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
 
-    image_path = "./library-management/backend/Branding_image.png"
+    image_path = "./backend/Branding_image.png"
     img = Image.open(image_path)
     img = img.resize((450, 450))
     photo = ImageTk.PhotoImage(img)
@@ -78,6 +79,11 @@ def validate_login(app):
         messagebox.showinfo("Success", "Login successful!")
         login_frame.pack_forget()
         welcome_screen(app, username)  #Thought of adding a argument for the data of the user or the admin.
+
+    elif sign_in(username, password):
+        messagebox.showinfo("Success", "Login successful!")
+        login_frame.pack_forget()
+        welcome_screen(app, username)
         
     else:
         messagebox.showerror("Error", "Invalid username or password.")
