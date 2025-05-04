@@ -6,18 +6,25 @@ from PIL import Image, ImageTk
 from ui.books_manage import books_manage
 from ui.shelf_manage import shelf_manage
 from ui.membership_manage import membership_manage
-from ui.dashboard import admin_dashboard
+from ui.dashboard import dashboard
 
 from ui.client.view_books import view_books
 from ui.client.view_borrowed_books import view_borrowed_books
 from ui.client.wishlist import wishlist
-from ui.client.dashboard import client_dashboard
+from backend.utils import load_data, MEMBERS_FILE
 
-ADMIN_CREDENTIALS = { # to check if everything is working fine.
-    "Pratham": "123",
-    "Thejas": "456",
-    "Thoshit": "789",
-}
+Members = load_data(MEMBERS_FILE)
+
+ADMIN_CREDENTIALS =[{
+   "Name": "Pratham",
+   "Password": "123"
+   },{
+    "Name": "Thejas",
+    "Password": "456"
+   },{
+    "Name": "Thoshit",
+    "Password": "789"
+   }]
 
 def update_time(label):
     current_time = time.strftime("%H:%M:%S")
@@ -25,21 +32,13 @@ def update_time(label):
     label.config(text=f"Current Time: {current_time}\n{current_date}")
     label.after(1000, update_time, label)
 
-def open_admin_dashboard(app, user):
+def open_dashboard(app, user):
     for widget in app.winfo_children():
         widget.destroy()
     if not app:
         messagebox.showerror("Error", "Application instance not found.")
         return
-    admin_dashboard(app, user)  
-
-def open_client_dashboard(app, user):
-    for widget in app.winfo_children():
-        widget.destroy()
-    if not app:
-        messagebox.showerror("Error", "Application instance not found.")
-        return
-    client_dashboard(app, user)      
+    dashboard(app, user)     
 
 def open_book_management(app):
     for widget in app.winfo_children():
@@ -121,12 +120,12 @@ def welcome_screen(app, user):
     main_frame = ttk.Frame(welcome_frame)
     main_frame.pack(expand=True, fill="both")
 
-    if user in ADMIN_CREDENTIALS:
+    if user in ADMIN_CREDENTIALS and user not in Members:
 
-        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_admin_dashboard(main_frame, user), style="crimson.TButton")
+        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_dashboard(main_frame, user), style="crimson.TButton")
         admin_dashboard_button.pack(padx=5, pady=10, fill="x", side="top")
 
-        book_management_button = ttk.Button(menu_frame, text="menu_book", command=lambda: open_book_management(main_frame), style="crimson.TButton")
+        book_management_button = ttk.Button(menu_frame, text="Viwe Books", command=lambda: open_book_management(main_frame), style="crimson.TButton")
         book_management_button.pack(padx=5, pady=10, fill="x", side="top")
         
         book_rack_management_button = ttk.Button(menu_frame, text="Book Rack Management", command=lambda: open_rack_management(main_frame), style="crimson.TButton")
@@ -135,11 +134,11 @@ def welcome_screen(app, user):
         membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: open_membership_management(main_frame), style="crimson.TButton")
         membership_management_button.pack(padx=5, pady=10, fill="x", side="top")
 
-        admin_dashboard(main_frame, user)
+        dashboard(main_frame, user)
     
-    elif user not in ADMIN_CREDENTIALS:
+    elif user not in ADMIN_CREDENTIALS and user in Members:
 
-        client_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_client_dashboard(main_frame, user), style="crimson.TButton")
+        client_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_dashboard(main_frame, user), style="crimson.TButton")
         client_dashboard_button.pack(padx=5, pady=10, fill="x", side="top") 
 
         view_books_button = ttk.Button(menu_frame, text="View Books", command=lambda: open_view_books(main_frame, user), style="crimson.TButton")
@@ -151,7 +150,7 @@ def welcome_screen(app, user):
         wishlist_button = ttk.Button(menu_frame, text="Wishlist", command=lambda: open_wishlist(main_frame, user), style="crimson.TButton")
         wishlist_button.pack(padx=5, pady=10, fill="x", side="top")
 
-        client_dashboard(main_frame, user)
+        dashboard(main_frame, user)
 
     else: return("Invalid Input")    
 

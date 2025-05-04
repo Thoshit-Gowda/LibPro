@@ -6,11 +6,26 @@ from backend.members import sign_in
 from PIL import Image, ImageTk
 
 
-ADMIN_CREDENTIALS = {
-    "Pratham": "123",
-    "Thejas": "456",
-    "Thoshit": "789",
-}
+ADMIN_CREDENTIALS =[{
+   "Name": "Pratham",
+   "Password": "123"
+   },{
+    "Name": "Thejas",
+    "Password": "456"
+   },{
+    "Name": "Thoshit",
+    "Password": "789"
+   }]
+
+def admin_sign_in(Name, Password):
+    if not Name.strip():
+        return "Valid email is required"
+    if not Password.strip():
+        return "Password is required"
+    for admin in ADMIN_CREDENTIALS:
+        if admin["Name"] == Name.strip() and admin["Password"] == Password.strip():
+            return admin
+    return False
 
 def login_screen(app):
     global login_frame, username_var, password_var
@@ -75,15 +90,15 @@ def validate_login(app):
         messagebox.showerror("Error", "Username and password cannot be empty.")
         return
 
-    if username in ADMIN_CREDENTIALS and ADMIN_CREDENTIALS[username] == password:
+    if admin_sign_in(username, password):
         messagebox.showinfo("Success", "Login successful!")
         login_frame.pack_forget()
-        welcome_screen(app, username)  #Thought of adding a argument for the data of the user or the admin.
+        welcome_screen(app, admin_sign_in(username, password))  #Thought of adding a argument for the data of the user or the admin.
 
     elif sign_in(username, password):
         messagebox.showinfo("Success", "Login successful!")
         login_frame.pack_forget()
-        welcome_screen(app, username)
+        welcome_screen(app, sign_in(username, password))
         
     else:
         messagebox.showerror("Error", "Invalid username or password.")

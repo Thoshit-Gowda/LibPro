@@ -82,3 +82,4 @@ def update_table(table):
 
     for book in Books:
         table.insert("", "end", values=(book["ISBN"], book["Title"], book["Author"], book["Quantity"]))
+

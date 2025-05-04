@@ -2,14 +2,6 @@ from tkinter import ttk, messagebox
 from ui.member_popups import open_add_member_popup, open_update_member_book_popup, update_member_popup, open_delete_member_popup
 from backend.members import Members, read_member
 
-def back_to_dashboard(app):    
-    from ui.dashboard import welcome_screen
-    
-    for widget in app.winfo_children():
-        widget.grid_forget()
-
-    welcome_screen(app)
-
 def membership_manage(app):
     global table, table_frame
 
@@ -42,7 +34,6 @@ def membership_manage(app):
     ttk.Button(button_frame, text="Delete Member", command=lambda: open_delete_member_popup(app, table, display_members), style="crimson.TButton").pack(fill="x", pady=5)
     ttk.Button(button_frame, text="Borrow Book", command=lambda: open_update_member_book_popup(app, table, True, display_members), style="crimson.TButton").pack(fill="x", pady=5)
     ttk.Button(button_frame, text="Return Book", command=lambda: open_update_member_book_popup(app, table, False, display_members), style="crimson.TButton").pack(fill="x", pady=5)
-    ttk.Button(button_frame, text="Dashboard", command=lambda: back_to_dashboard(app), style="crimson.TButton").pack(fill="x", pady=50)
 
     app.grid_columnconfigure(0, weight=3)
     app.grid_columnconfigure(1, weight=1)

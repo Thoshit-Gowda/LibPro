@@ -2,22 +2,44 @@ import time
 from tkinter import messagebox
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
+
 from ui.book_popups import open_add_book_popup, open_download_barcodes_popup, update_book_popup, open_delete_book_popup
+
 from backend.books import Books, read_book, available_books
-from backend.members import borrowed_books
+from backend.members import borrowed_books, overdue_books, total_overdue_books
 from backend.utils import load_data, MEMBERS_FILE
+
+from ui.client.view_books import view_books
+from ui.client.view_borrowed_books import view_borrowed_books
+from ui.client.wishlist import wishlist
 
 Members = load_data(MEMBERS_FILE)
 
-def admin_dashboard(app, user):
+ADMIN_CREDENTIALS =[{
+   "Name": "Pratham",
+   "Password": "123"
+   },{
+    "Name": "Thejas",
+    "Password": "456"
+   },{
+    "Name": "Thoshit",
+    "Password": "789"
+   }]
+
+def update_time(label):
+    current_time = time.strftime("%H:%M:%S")
+    current_date = time.strftime("%A, %B %d, %Y")
+    label.config(text=f"Current Time: {current_time}\n{current_date}")
+    label.after(1000, update_time, label)
+
+def dashboard(app, user):
     if not app:
         messagebox.showerror("Error", "Application instance not found.")
         return
 
-    ttk.Label(app, text="Hello,"f'{user}', font=("Helvetica", 20, "bold"), foreground="red").pack(anchor="w", padx=20, pady=(10, 0))
+    ttk.Label(app, text="Hello,"f'{user["Name"]}!', font=("Helvetica", 20, "bold"), foreground="red").pack(anchor="w", padx=20, pady=(10, 0))
     time_label = ttk.Label(app, text="Time", font=("Helvetica", 10)).pack(anchor="w", padx=20)
     
-    # Summary cards
     summary_frame = ttk.Frame(app)
     summary_frame.pack(fill=X, padx=20, pady=20)
     
@@ -27,18 +49,24 @@ def admin_dashboard(app, user):
         ttk.Label(frame, text=value, font=("Helvetica", 18, "bold")).pack()
         ttk.Label(frame, text=title, font=("Helvetica", 10)).pack()
     
-    # Placeholder cards
-    create_card(summary_frame, "Total Visitors", f"{len(Members)}")
-    create_card(summary_frame, "Borrowed Books", f"{borrowed_books}")
-    create_card(summary_frame, "Overdue Books", "----")
-    create_card(summary_frame, "Available Books",f"{available_books}")
+    if user in ADMIN_CREDENTIALS and user not in Members:
+       create_card(summary_frame, "Total Visitors", f"{len(Members)}")
+       create_card(summary_frame, "Borrowed Books", f"{borrowed_books}")
+       create_card(summary_frame, "Overdue Books", f"{total_overdue_books()}")
+       create_card(summary_frame, "Available Books",f"{available_books}")
+
+    elif user not in ADMIN_CREDENTIALS and user in Members:
+       create_card(summary_frame, "Overdue Books", f"{overdue_books(user["UID"])}")
+       create_card(summary_frame, "Borrowed Books", f"{len(user["SKU"])}")
+       create_card(summary_frame, "BookMarks", f"{user["BookMarks"]}")
+       create_card(summary_frame, "Available Books",f"{available_books}")
+
+    else: return("Unknown User")
     
-    # Main content section
     content_frame = ttk.Frame(app)
     content_frame.pack(fill=BOTH, expand=True, padx=20, pady=10)
     
-    # Users List
-    user_frame = ttk.Labelframe(content_frame, text="Users List", padding=10, width=500)
+    user_frame = ttk.Labelframe(content_frame, text="Top Users List", padding=10, width=500)
     user_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=10)
     user_frame.pack_propagate(0)
     
@@ -50,8 +78,7 @@ def admin_dashboard(app, user):
         user_tree.column(col, anchor='center')
     user_tree.pack(fill=BOTH, expand=True)
     
-    # Books List
-    books_frame = ttk.Labelframe(content_frame, text="Books List", padding=10, width=500)
+    books_frame = ttk.Labelframe(content_frame, text="Most Borrowed Books List", padding=10, width=500)
     books_frame.pack(side=LEFT, fill=BOTH, expand=True, padx=10)
     books_frame.pack_propagate(0)
     

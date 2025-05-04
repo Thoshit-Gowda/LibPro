@@ -7,7 +7,6 @@ from barcode.writer import ImageWriter
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-
 Books = load_data(BOOKS_FILE)
 Members = load_data(MEMBERS_FILE)
 

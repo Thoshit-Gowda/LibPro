@@ -12,6 +12,26 @@ borrowed_books = 0
 for member in Members:
     borrowed_books = int(borrowed_books) + len(member["SKU"])
 
+def bookmarks(UID, SKU):
+
+    if not SKU:
+      return "Error:invalid sku encountered while awarding bookmarks"
+
+    else:
+        ISBN = str(SKU).split("-")[0]
+        for book in Books:
+            if str(book["ISBN"]) == ISBN:
+                genre = books["Category"]
+                if genre in("Fiction", "Mystery", "Wellness", 
+                "Romance", "Graphic Novels","Children’s Books"):
+                   return 10
+
+                elif genre in ("Local Authors","Classics", "Philosophy","Science & Tech","Biography",
+                "Historical Fiction", "Non-Fiction", "Poetry","Fantasy", "Science Fiction"):
+                   return 15
+
+                else: return "Error: genre no in database"               
+
 def is_valid_email(email):
     return re.match(r"[^@]+@[^@]+\.[^@]+", email) is not None
 
@@ -164,25 +184,19 @@ def manage_wishlist(ADD, UID, ISBN):
     
     return "Error: UID is Invalid"
 
-def bookmarks(SKU):
+def overdue_books(UID):
+    books_overdue = 0
+    for values in read_member(UID)["SKU"]:
+        borrow_date = datetime.strptime(read_member(UID)["SKU"][values], "%d/%m/%Y %H:%M:%S")
+        days_late = (datetime.now() - borrow_date).days
+        if days_late > 0:
+            books_overdue = books_overdue + 1
+    return books_overdue
 
-    if not SKU:
-      return "Error:invalid sku encountered while awarding bookmarks"
+def total_overdue_books():
+    books = 0
+    for member in Members:
+        books = books + overdue_books(member["UID"])
 
-    else:
-        ISBN = str(SKU).split("-")[0]
-        for book in Books:
-            if str(book["ISBN"]) == ISBN:
-                genre = books["Category"]
-                if genre in("Fiction", "Mystery", "Wellness", 
-                "Romance", "Graphic Novels","Children’s Books"):
-                   return 10
-
-                elif genre in ("Local Authors","Classics", "Philosophy","Science & Tech","Biography",
-                "Historical Fiction", "Non-Fiction", "Poetry","Fantasy", "Science Fiction"):
-                   return 15
-
-                else: return "Error: genre no in database"
-
-
-                    
+    return books
+    

@@ -3,14 +3,6 @@ from tkinter import StringVar, ttk, messagebox
 from backend.shelfing import deshelve, search, shelf, categorise, BookShelf, DeshelvedBooks
 from backend.utils import open_barcode_scanner
 
-def back_to_dashboard(app):    
-    from ui.dashboard import welcome_screen
-    
-    for widget in app.winfo_children():
-        widget.destroy()
-
-    welcome_screen(app)
-
 def show_deshelved_books():
     if not DeshelvedBooks:
         messagebox.showinfo("Deshelved Books", "No books have been deshelved.")
@@ -238,7 +230,6 @@ def shelf_manage(app):
     ttk.Button(right_frame, text="Search Book", command=lambda: open_search_popup(app), style="crimson.TButton").grid(row=2, column=0, pady=10)
     ttk.Button(right_frame, text="Deshelve Book", command=lambda: open_deshelve_popup(app,update_shelf_view), style="crimson.TButton").grid(row=3, column=0, pady=10)
     ttk.Button(right_frame, text="View Deshelved Books", command=lambda: show_deshelved_books(), style="crimson.TButton").grid(row=4, column=0, pady=10)
-    ttk.Button(right_frame, text="Dashboard", command=lambda: back_to_dashboard(app), style="crimson.TButton").grid(row=5, column=0, pady=50)
 
     app.grid_rowconfigure(0, weight=1)
     app.grid_columnconfigure(0, weight=1)
