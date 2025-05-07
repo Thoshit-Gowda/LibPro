@@ -30,23 +30,23 @@ def admin_sign_in(Name, Password):
 def login_screen(app):
     global login_frame, username_var, password_var
 
-    login_frame = ttk.Frame(app, padding=30)
+    login_frame = ttk.Frame(app, padding=30, style="My.TFrame")
     login_frame.pack(expand=True, fill="both")
 
-    branding_frame = ttk.Frame(login_frame, padding=20)
+    branding_frame = ttk.Frame(login_frame, padding=20, style="My.TFrame")
     branding_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
 
-    image_path = "./backend/Branding_image.png"
+    image_path = "./backend/Branding_image.jpg"
     img = Image.open(image_path)
     img = img.resize((450, 450))
     photo = ImageTk.PhotoImage(img)
 
-    Img1 = tk.Label(branding_frame, image=photo, bg="#1e1e1e")
+    Img1 = tk.Label(branding_frame, image=photo, background="#171717")
     Img1.image = photo  
     Img1.place(relx=0.5, rely=0.5, anchor="center")
     Img1.pack(expand=True, pady=40)
     
-    ttk.Label(branding_frame, anchor="center").pack(pady=70)
+    ttk.Label(branding_frame, anchor="center", style="My.TFrame").pack(pady=70)
 
     login_section = ttk.Frame(login_frame, padding=20)
     login_section.pack(side="right", fill="both", expand=True, padx=10, pady=20)

@@ -14,6 +14,11 @@ def add_to_wishlist(uid, isbn):
 
 def view_books(app, member):
     def show_main_page():
+        for widget in app.winfo_children():
+           widget.destroy()
+        if not app:
+            messagebox.showerror("Error", "Application instance not found.")
+            return
         def go_to_dashboard():
             main_frame.pack_forget()
             #dashboard.welcome_screen(app, member)
@@ -29,13 +34,6 @@ def view_books(app, member):
 
         ttk.Label(left_panel, text="Available Books", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
         ttk.Label(left_panel, text="List of Books available in this library.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
-        back_button = ttk.Button(
-            left_panel,
-            text="Back to Dashboard",
-            command=go_to_dashboard,
-            style="crimson.TButton",
-        )
-        back_button.pack(pady=60)
 
         right_panel = ttk.Frame(main_frame, padding=20)
         right_panel.pack(side="right", fill="both", expand=True, padx=20, pady=20)

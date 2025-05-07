@@ -102,6 +102,16 @@ def welcome_screen(app, user):
         messagebox.showerror("Error", "Application instance not found.")
         return    
 
+    selected_button = {"current": None}
+
+    def select_button(btn):
+        # Reset the previously selected button's style
+        if selected_button["current"]:
+            selected_button["current"].configure(style="inactive.TButton")
+        # Set the new button's style
+        btn.configure(style="active.TButton")
+        selected_button["current"] = btn
+
     image_path = "./backend/LibPro_logo.png"
     img = Image.open(image_path)
     img = img.resize((150, 55))
@@ -122,35 +132,37 @@ def welcome_screen(app, user):
 
     if user in ADMIN_CREDENTIALS and user not in Members:
 
-        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_dashboard(main_frame, user), style="crimson.TButton")
-        admin_dashboard_button.pack(padx=5, pady=10, fill="x", side="top")
+        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(admin_dashboard_button),open_dashboard(main_frame, user)], style="inactive.TButton")
+        admin_dashboard_button.pack(padx=5, fill="x", side="top", pady=(10,0))
 
-        book_management_button = ttk.Button(menu_frame, text="Viwe Books", command=lambda: open_book_management(main_frame), style="crimson.TButton")
-        book_management_button.pack(padx=5, pady=10, fill="x", side="top")
+        book_management_button = ttk.Button(menu_frame, text="View Books", command=lambda: [select_button(book_management_button),open_book_management(main_frame)], style="inactive.TButton")
+        book_management_button.pack(padx=5, fill="x", side="top")
         
-        book_rack_management_button = ttk.Button(menu_frame, text="Book Rack Management", command=lambda: open_rack_management(main_frame), style="crimson.TButton")
-        book_rack_management_button.pack(padx=5, pady=10, fill="x", side="top")
+        book_rack_management_button = ttk.Button(menu_frame, text="Book Rack Management", command=lambda: [select_button(book_rack_management_button),open_rack_management(main_frame)], style="inactive.TButton")
+        book_rack_management_button.pack(padx=5, fill="x", side="top")
     
-        membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: open_membership_management(main_frame), style="crimson.TButton")
-        membership_management_button.pack(padx=5, pady=10, fill="x", side="top")
+        membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: [select_button(membership_management_button),open_membership_management(main_frame)], style="inactive.TButton")
+        membership_management_button.pack(padx=5, fill="x", side="top")
 
         dashboard(main_frame, user)
+        select_button(admin_dashboard_button)
     
     elif user not in ADMIN_CREDENTIALS and user in Members:
 
-        client_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: open_dashboard(main_frame, user), style="crimson.TButton")
-        client_dashboard_button.pack(padx=5, pady=10, fill="x", side="top") 
+        client_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(client_dashboard_button),open_dashboard(main_frame, user)], style="inactive.TButton")
+        client_dashboard_button.pack(padx=5, pady=(10,0), fill="x", side="top") 
 
-        view_books_button = ttk.Button(menu_frame, text="View Books", command=lambda: open_view_books(main_frame, user), style="crimson.TButton")
-        view_books_button.pack(padx=5, pady=10, fill="x", side="top")
+        view_books_button = ttk.Button(menu_frame, text="View Books", command=lambda: [select_button(view_books_button),open_view_books(main_frame, user)], style="inactive.TButton")
+        view_books_button.pack(padx=5, fill="x", side="top")
     
-        view_borrowed_books_button = ttk.Button(menu_frame, text="View Borrowed Books", command=lambda: open_view_borrowed_books(main_frame, user), style="crimson.TButton")
-        view_borrowed_books_button.pack(padx=5, pady=10, fill="x", side="top")
+        view_borrowed_books_button = ttk.Button(menu_frame, text="View Borrowed Books", command=lambda: [select_button(view_borrowed_books_button),open_view_borrowed_books(main_frame, user)], style="inactive.TButton")
+        view_borrowed_books_button.pack(padx=5, fill="x", side="top")
     
-        wishlist_button = ttk.Button(menu_frame, text="Wishlist", command=lambda: open_wishlist(main_frame, user), style="crimson.TButton")
-        wishlist_button.pack(padx=5, pady=10, fill="x", side="top")
+        wishlist_button = ttk.Button(menu_frame, text="Wishlist", command=lambda: [select_button(wishlist_button),open_wishlist(main_frame, user)], style="inactive.TButton")
+        wishlist_button.pack(padx=5,  fill="x", side="top")
 
         dashboard(main_frame, user)
+        select_button(client_dashboard_button)
 
     else: return("Invalid Input")    
 
