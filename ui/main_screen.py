@@ -112,7 +112,7 @@ def welcome_screen(app, user):
         btn.configure(style="active.TButton")
         selected_button["current"] = btn
 
-    image_path = "./backend/LibPro_logo.png"
+    image_path = "./backend/Images/LibPro_logo.png"
     img = Image.open(image_path)
     img = img.resize((150, 55))
     photo = ImageTk.PhotoImage(img)

@@ -36,7 +36,7 @@ def login_screen(app):
     branding_frame = ttk.Frame(login_frame, padding=20, style="My.TFrame")
     branding_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
 
-    image_path = "./backend/Branding_image.jpg"
+    image_path = "./backend/Images/Branding_image.jpg"
     img = Image.open(image_path)
     img = img.resize((450, 450))
     photo = ImageTk.PhotoImage(img)
