@@ -1,14 +1,4 @@
-# 📚 Library Management System – Database Schema
-
-This document outlines the structure and constraints of the tables used in the **Library Management System** database.
-
----
-
-## 📦 Inventory Table
-
-Tracks individual copies of books using SKU numbers.
-
-```sql
+INVENTORY TABLE:-
 CREATE TABLE Inventory (
     SKUNumber VARCHAR(50) PRIMARY KEY,
     ISBN VARCHAR(13) NOT NULL CHECK (CHAR_LENGTH(ISBN) = 10 OR CHAR_LENGTH(ISBN) = 13),
@@ -24,24 +14,8 @@ CREATE TABLE Inventory (
     AddedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
     UpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
-### Fields:
-
-* `SKUNumber`: Unique identifier for each book copy.
-* `ISBN`: Links to a book in the `Books` table.
-* `Status`: Current status of the book copy.
-* `BorrowedBy`: Email of the member (if borrowed).
-* `Category`, `BayNumber`, `ShelfNumber`, `RowNumber`, `ColumnNumber`: Physical location.
-* `AddedOn`, `UpdatedOn`: Timestamps for tracking changes.
-
----
-
-## 📘 Books Table
-
-Contains metadata for each unique book.
-
-```sql
+BOOKS TABLE:-
 CREATE TABLE Books (
     BookNumber INT NOT NULL UNIQUE AUTO_INCREMENT,
     ISBN VARCHAR(13) PRIMARY KEY CHECK (CHAR_LENGTH(ISBN) = 10 OR CHAR_LENGTH(ISBN) = 13),
@@ -54,21 +28,8 @@ CREATE TABLE Books (
     DateAdded DATETIME DEFAULT CURRENT_TIMESTAMP,
     LastUpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
-### Fields:
-
-* `ISBN`: Primary key and reference for all book copies.
-* `BookNumber`: Unique incremental ID.
-* Includes `Title`, `Author`, `Publication`, `Genre`, and `Language`.
-
----
-
-## 👥 Members Table
-
-Stores information about registered library members.
-
-```sql
+MEMBERS TABLE:-
 CREATE TABLE Members (
     MemberNumber INT NOT NULL UNIQUE AUTO_INCREMENT,
     EmailID VARCHAR(255) PRIMARY KEY,
@@ -85,23 +46,8 @@ CREATE TABLE Members (
     LastLoginOn DATETIME DEFAULT NULL,
     LastUpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
-### Fields:
-
-* `EmailID`: Primary key.
-* `Password`: Encrypted string.
-* `MobileNumber`: Must be a valid 10-digit number.
-* `Points`, `Fines`: For gamification and penalties.
-* `WishlistedBooks`, `BooksHistory`: Stored as serialized text.
-
----
-
-## 🧑‍🏫 Librarian Table
-
-Manages staff-level users of the system.
-
-```sql
+LIBRARIAN TABLE:-
 CREATE TABLE Librarian (
     LibrarianNumber INT NOT NULL UNIQUE AUTO_INCREMENT,
     EmailID VARCHAR(255) PRIMARY KEY,
@@ -114,20 +60,8 @@ CREATE TABLE Librarian (
     LastLoginOn DATETIME DEFAULT NULL,
     LastUpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
-### Fields:
-
-* Similar to `Members`, but for administrative access.
-* `MobileNumber` is unique.
-
----
-
-## ✍️ Reviews Table
-
-Stores book reviews submitted by members or readers.
-
-```sql
+REVIEWS TABLE:-
 CREATE TABLE Reviews (
     ReviewID INT NOT NULL UNIQUE AUTO_INCREMENT,
     ISBN VARCHAR(13) PRIMARY KEY,
@@ -138,21 +72,8 @@ CREATE TABLE Reviews (
     ReviewedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
     UpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
-### Fields:
-
-* `ISBN`: Tied to a book (should ideally allow multiple reviews per book — see note below).
-* `Rating`: 1 to 5 stars.
-* `ReviewerName`, `ReviewerEmail`: Reviewer identity.
-
----
-
-## 📄 BooksRecord Table
-
-Logs borrow/return/lost transactions of books.
-
-```sql
+BOOKS RECORD:-
 CREATE TABLE BooksRecord (
     RecordNumber INT NOT NULL AUTO_INCREMENT UNIQUE,
     SKU VARCHAR(50) PRIMARY KEY,
@@ -169,10 +90,3 @@ CREATE TABLE BooksRecord (
     UpdatedOn DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CreatedOn DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-```
-
-### Fields:
-
-* Tracks lifecycle of a book’s lending status.
-* `SKU`: Unique to a physical copy (used as primary key).
-* `Points`, `Fine`, `DaysLate`: Useful for reward/penalty systems.
