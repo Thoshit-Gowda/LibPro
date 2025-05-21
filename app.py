@@ -17,7 +17,7 @@ app.protocol("WM_DELETE_WINDOW", on_close)
 style = ttk.Style()
 style.configure("crimson.TButton",
                 background="#4682B4", 
-                foreground="White",  
+                foreground="white",  
                 borderwidth=0,
                 focusthickness=0)
             
@@ -39,6 +39,22 @@ style.configure("active.TButton",
 style.configure("My.TFrame", background="#171717")
 
 style.configure("secondary.TFrame", background="#4682B4")
+
+style.configure("Dark.Horizontal.TScrollbar",
+                troughcolor="#1e1e1e",
+                background="#444444",
+                arrowcolor="white",
+                bordercolor="#1e1e1e",
+                relief="flat",
+                gripcount=0)
+
+style.configure("Dark.Vertical.TScrollbar",
+                troughcolor="#1e1e1e",
+                background="#444444",
+                arrowcolor="white",
+                bordercolor="#1e1e1e",
+                relief="flat",
+                gripcount=0)
 
 login_screen(app)
 app.mainloop()

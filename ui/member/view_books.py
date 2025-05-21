@@ -5,7 +5,7 @@ from backend.account import wishlist_mem
 from backend.inventory import get_book_inv
 from backend.reviews import get_reviews
 
-ACCENT_COLOR = "#dc143c"
+ACCENT_COLOR = "#6CA6CD"
 
 def add_to_wishlist(email, isbn):
     res = wishlist_mem(True,email,isbn)

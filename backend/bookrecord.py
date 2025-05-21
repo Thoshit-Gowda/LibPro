@@ -140,9 +140,9 @@ def overdue_books(sku=None, email=None, count=False):
 
         q = f"SELECT SKU, FullName, DaysLate ,DueOn, Fine FROM BooksRecord WHERE {where}"
         rows = fAll(q, tuple(vals)) or []
-        result = ()
+        result = []
         for s, name, days, due, fine in rows:
-            result = (s, name, days, due, fine)
+            result.append((s, name, days, due, fine))
         return result or "No overdue records."
     except Error as e:
         return f"Database error: {e}"

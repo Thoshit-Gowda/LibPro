@@ -2,6 +2,16 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from backend.books import add_book_det, delete_book_det, get_book_det, update_book_det
 
+column_widths = {
+        "ISBN":30,
+        "Title": 10,
+        "Description": 130,
+        "Author": 10,
+        "Publication": 10,
+        "Genre": 5,
+        "Language": 5,
+    }
+
 def create_labeled_entry(parent, label, text_var, row, col):
     ttk.Label(parent, text=label, font=("Century Gothic", 8)).grid(row=row, column=col * 2, padx=5, pady=5, sticky="w")
     ttk.Entry(parent, textvariable=text_var, font=("Century Gothic", 10)).grid(row=row, column=col * 2 + 1, padx=5, pady=5, sticky="ew")
@@ -76,7 +86,7 @@ def books_manage(app):
     table = ttk.Treeview(app, columns=("ISBN", "Title", "Description", "Author", "Publication", "Genre", "Language"), show="headings")
     for col in table["columns"]:
         table.heading(col, text=col)
-        table.column(col, width=100)
+        table.column(col, width=column_widths[col], anchor="center")
     table.pack(fill="both", expand=True)
 
     def refresh_table():
