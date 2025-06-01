@@ -21,11 +21,11 @@ def view_books(app, email):
         main_frame = ttk.Frame(app, padding=30)
         main_frame.pack(fill="both", expand=True)
 
-        left_panel = ttk.Frame(main_frame, padding=20)
-        left_panel.pack(side="left", fill="both", expand=True, padx=20, pady=20)
+        #left_panel = ttk.Frame(main_frame, padding=20)
+        #left_panel.pack(side="left", fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Label(left_panel, text="Available Books", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
-        ttk.Label(left_panel, text="List of Books available in this library.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
+        #ttk.Label(left_panel, text="Available Books", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
+        #ttk.Label(left_panel, text="List of Books available in this library.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
 
         right_panel = ttk.Frame(main_frame, padding=20)
         right_panel.pack(side="right", fill="both", expand=True, padx=20, pady=20)
@@ -48,38 +48,56 @@ def view_books(app, email):
         style.configure('hover.TFrame', background='#f0f0f0', borderwidth=0)
         
         if len(Books)>0:
+            idx = 0
             for book in Books:
-                book_frame = ttk.Frame(scrollable_frame, padding=10, style="default.TFrame")
-                book_frame.pack(fill="x", pady=(0, 1))
+                row = idx // 4
+                col = idx % 4
+                idx = idx + 1
+                book_frame = ttk.Frame(scrollable_frame, width=100, height=150,borderwidth=3, bootstyle="dark")
+                book_frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
+                book_frame.grid_propagate(False)  
 
                 def on_hover(e, frame=book_frame):
                     frame.configure(style="hover.TFrame")
 
                 def on_leave(e, frame=book_frame):
-                    frame.configure(style="default.TFrame")
+                    frame.configure(bootstyle="dark")
 
                 book_frame.bind("<Enter>", on_hover)
                 book_frame.bind("<Leave>", on_leave)
+
                 title_label = ttk.Label(
                     book_frame,
-                    text=book[2],
+                    text=f"{book[2]}\t\t\t\t\t\t\t\t\t\t",
                     font=("Helvetica", 14, "bold"),
                     foreground=ACCENT_COLOR,
-                    anchor="w"
+                    wraplength=172 
                 )
-                title_label.pack(anchor="w", padx=5)
+                title_label.pack(padx=5, expand=True, fill="both")
                 title_label.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
 
-                isbn_label = ttk.Label(
+                description_label = ttk.Label(
                     book_frame,
-                    text=f"ISBN: {book[1]}",
+                    text=f"Description: {book[3]}",
                     font=("Helvetica", 10),
-                    anchor="w"
+                    wraplength=200, 
+                    justify="left"
                 )
-                isbn_label.pack(anchor="w", padx=5)
-                isbn_label.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
+                description_label.pack(padx=5, expand=True, fill="both")
+                description_label.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
+
+                author_label = ttk.Label(
+                    book_frame,
+                    text=f"Author: {book[4]}",
+                    font=("Helvetica", 10)
+                )
+                author_label.pack(padx=5, expand=True, fill="both")
+                author_label.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
 
                 book_frame.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
+
+            for i in range(4):
+                scrollable_frame.grid_columnconfigure(i, weight=1)
 
         else:
             ttk.Label(

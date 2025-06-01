@@ -54,7 +54,8 @@ def dashboard_content(app, email, db):
         overdue_tree = ttk.Treeview(
         books_frame,
         columns=("SKU", "Member", "Days Overdue", "Return Date", "Fine(Rs.)"),
-        show="headings"
+        show="headings",
+        bootstyle="secondary"
         )   
     
         for col in overdue_tree["columns"]:
@@ -70,7 +71,8 @@ def dashboard_content(app, email, db):
         books_tree = ttk.Treeview(
         lost_frame,
         columns=("SKU", "Status", "Member", "Returned On"),
-        show="headings"
+        show="headings",
+        bootstyle="secondary"
         )   
     
         for col in books_tree["columns"]:
@@ -99,7 +101,8 @@ def dashboard_content(app, email, db):
         books_tree = ttk.Treeview(
          books_frame,
          columns=("SKU", "Days Overdue", "Return Date", "Fine(Rs.)"),
-         show="headings"
+         show="headings",
+         bootstyle="secondary"
         )
  
         for col in books_tree["columns"]:

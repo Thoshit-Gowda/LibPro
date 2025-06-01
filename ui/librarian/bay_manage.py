@@ -7,7 +7,7 @@ def bay_manager(app):
     outer_canvas = tk.Canvas(app, bg="#1e1e1e", highlightthickness=0)
     outer_canvas.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
 
-    outer_scroll = ttk.Scrollbar(app, orient=tk.HORIZONTAL, command=outer_canvas.xview, style="Dark.Horizontal.TScrollbar")
+    outer_scroll = ttk.Scrollbar(app, orient=tk.HORIZONTAL, command=outer_canvas.xview, bootstyle="dark")
     outer_canvas.configure(xscrollcommand=outer_scroll.set)
     outer_scroll.pack(fill=tk.X, side=tk.BOTTOM)
 
@@ -37,7 +37,7 @@ def bay_manager(app):
         bay_canvas.pack(side=tk.LEFT, fill=tk.Y, expand=True)
     
         # Vertical scrollbar for bay
-        bay_v_scroll = ttk.Scrollbar(bay_scroll_frame, orient=tk.VERTICAL, command=bay_canvas.yview, style="Dark.Vertical.TScrollbar")
+        bay_v_scroll = ttk.Scrollbar(bay_scroll_frame, orient=tk.VERTICAL, command=bay_canvas.yview, bootstyle="dark")
         bay_v_scroll.pack(side=tk.RIGHT, fill=tk.Y)
     
         bay_canvas.configure(yscrollcommand=bay_v_scroll.set)

@@ -83,7 +83,7 @@ def books_manage(app):
     for widget in app.winfo_children():
         widget.destroy()
 
-    table = ttk.Treeview(app, columns=("ISBN", "Title", "Description", "Author", "Publication", "Genre", "Language"), show="headings")
+    table = ttk.Treeview(app, columns=("ISBN", "Title", "Description", "Author", "Publication", "Genre", "Language"), show="headings",bootstyle="secondary")
     for col in table["columns"]:
         table.heading(col, text=col)
         table.column(col, width=column_widths[col], anchor="center")

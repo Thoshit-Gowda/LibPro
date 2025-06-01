@@ -124,7 +124,7 @@ def member_manager(app, admin_email):
     frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
     columns = ("Member No.", "Email", "Full Name", "Mobile Number", "Points", "Fines", "Date of Joining")
-    table = ttk.Treeview(frame, columns=columns, show="headings", height=40)
+    table = ttk.Treeview(frame, columns=columns, show="headings", height=40,bootstyle="secondary")
 
     for col in columns:
         table.heading(col, text=col)

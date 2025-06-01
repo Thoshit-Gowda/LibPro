@@ -9,6 +9,7 @@ from ui.librarian.member_manager import member_manager
 from ui.librarian.bay_manage import bay_manager
 from ui.librarian.books_manage import books_manage
 from ui.member.view_books import view_books
+from ui.member.ProPoints import points_dashboard
 
 def open_dashboard(app, user,db):
     for widget in app.winfo_children():
@@ -49,6 +50,15 @@ def open_view_books(app, email):
         messagebox.showerror("Error", "Application instance not found.")
         return
     view_books(app, email)  
+
+def open_pro_points(app, user):
+    for widget in app.winfo_children():
+        widget.destroy()
+    if not app:
+        messagebox.showerror("Error", "Application instance not found.")
+        return
+    points_dashboard(app, user)  
+    
 
 def logout(app):
     res = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?")
@@ -93,8 +103,8 @@ def dashboard(app, email, db):
     main_frame.pack(expand=True, fill="both")
 
     if db == "Librarian":
-        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(admin_dashboard_button),open_dashboard(main_frame, email,db)], style="inactive.TButton")
-        admin_dashboard_button.pack(padx=5, fill="x", side="top", pady=(10,0))
+        dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(dashboard_button),open_dashboard(main_frame, email,db)], style="inactive.TButton")
+        dashboard_button.pack(padx=5, fill="x", side="top", pady=(10,0))
 
         book_management_button = ttk.Button(menu_frame, text="View Books", command=lambda: [select_button(book_management_button),open_book_manager(main_frame)], style="inactive.TButton")
         book_management_button.pack(padx=5, fill="x", side="top")
@@ -105,22 +115,22 @@ def dashboard(app, email, db):
         membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: [select_button(membership_management_button),open_member_manager(main_frame,email)], style="inactive.TButton")
         membership_management_button.pack(padx=5, fill="x", side="top")
 
-        select_button(admin_dashboard_button)
+        select_button(dashboard_button)
         
     elif db == "Members":
-        admin_dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(admin_dashboard_button),open_dashboard(main_frame, email,db)], style="inactive.TButton")
-        admin_dashboard_button.pack(padx=5, fill="x", side="top", pady=(10,0))
+        dashboard_button =ttk.Button(menu_frame, text="Dashboard", command=lambda: [select_button(dashboard_button),open_dashboard(main_frame, email,db)], style="inactive.TButton")
+        dashboard_button.pack(padx=5, fill="x", side="top", pady=(10,0))
 
         book_management_button = ttk.Button(menu_frame, text="View Books", command=lambda: [select_button(book_management_button),open_view_books(main_frame, email)], style="inactive.TButton")
         book_management_button.pack(padx=5, fill="x", side="top")
         
-        # book_rack_management_button = ttk.Button(menu_frame, text="Book Rack Management", command=lambda: [select_button(book_rack_management_button),open_rack_management(main_frame)], style="inactive.TButton")
-        # book_rack_management_button.pack(padx=5, fill="x", side="top")
+        pro_points_button = ttk.Button(menu_frame, text="Pro Points", command=lambda: [select_button(pro_points_button),open_pro_points(main_frame, email)], style="inactive.TButton")
+        pro_points_button.pack(padx=5, fill="x", side="top")
     
         # membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: [select_button(membership_management_button),open_membership_management(main_frame)], style="inactive.TButton")
         # membership_management_button.pack(padx=5, fill="x", side="top")
 
-        select_button(admin_dashboard_button)
+        select_button(dashboard_button)
     else: return("Invalid Input")  
     dashboard_content(main_frame, email, db)
     
