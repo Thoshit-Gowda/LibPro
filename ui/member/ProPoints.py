@@ -14,8 +14,7 @@ redemption_items = [
 def points_dashboard(app, email):
     
         userDet = get_record(email= email)[0]
-        bookDet = get_book_det(isbn= int(userDet[2]))
-        print(bookDet)
+        bookDet = get_book_det(isbn= userDet[2])
 
         # USER INFO CARD
         user_frame = Frame(app, padding=15, bootstyle="dark")

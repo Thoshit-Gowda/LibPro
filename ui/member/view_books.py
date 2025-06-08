@@ -18,20 +18,17 @@ Books = get_book_det()
 
 def view_books(app, email):
     def show_main_page():
+        for widget in app.winfo_children():
+            widget.destroy()
+
         main_frame = ttk.Frame(app, padding=30)
         main_frame.pack(fill="both", expand=True)
 
-        #left_panel = ttk.Frame(main_frame, padding=20)
-        #left_panel.pack(side="left", fill="both", expand=True, padx=20, pady=20)
+        main_panel = ttk.Frame(main_frame, padding=20)
+        main_panel.pack(side="top", fill="both", expand=True, padx=20, anchor="n")
 
-        #ttk.Label(left_panel, text="Available Books", font=("Century Gothic", 40, "bold"), anchor="center").pack(pady=10)
-        #ttk.Label(left_panel, text="List of Books available in this library.", font=("Arial", 18, "italic"), anchor="center").pack(pady=0)
-
-        right_panel = ttk.Frame(main_frame, padding=20)
-        right_panel.pack(side="right", fill="both", expand=True, padx=20, pady=20)
-
-        canvas = ttk.Canvas(right_panel, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(right_panel, orient="vertical", command=canvas.yview)
+        canvas = ttk.Canvas(main_panel, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(main_panel, orient="vertical", command=canvas.yview)
         scrollable_frame = ttk.Frame(canvas)
 
         scrollable_frame.bind(
@@ -53,7 +50,7 @@ def view_books(app, email):
                 row = idx // 4
                 col = idx % 4
                 idx = idx + 1
-                book_frame = ttk.Frame(scrollable_frame, width=100, height=150,borderwidth=3, bootstyle="dark")
+                book_frame = ttk.Frame(scrollable_frame, width=100, height=160,borderwidth=3, bootstyle="dark")
                 book_frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
                 book_frame.grid_propagate(False)  
 
@@ -71,9 +68,10 @@ def view_books(app, email):
                     text=f"{book[2]}\t\t\t\t\t\t\t\t\t\t",
                     font=("Helvetica", 14, "bold"),
                     foreground=ACCENT_COLOR,
-                    wraplength=172 
+                    wraplength=172,
+                    anchor="center"
                 )
-                title_label.pack(padx=5, expand=True, fill="both")
+                title_label.pack(padx=5, expand=True, fill="both", anchor="center", side="top")
                 title_label.bind("<Button-1>", lambda e, isbn=book[1]: show_details_page(isbn))
 
                 description_label = ttk.Label(
@@ -115,28 +113,28 @@ def view_books(app, email):
         details_frame = ttk.Frame(app, padding=30)
         details_frame.pack(fill="both", expand=True)
 
-        left_panel = ttk.Frame(details_frame, padding=20)
-        left_panel.pack(side="left", fill="both", expand=True, padx=20, pady=20)
+        header = ttk.Frame(details_frame, padding=20)
+        header.pack(side="left", fill="both", expand=True, padx=20, pady=20)
 
         ttk.Label(
-            left_panel,
+            header,
             text="Book Details",
             font=("Century Gothic", 40, "bold"),
             anchor="center",
         ).pack(pady=10)
 
         ttk.Label(
-            left_panel,
+            header,
             text="Detailed Information about the selected book.",
             font=("Arial", 18, "italic"),
             anchor="center",
         ).pack(pady=5)
 
-        right_panel = ttk.Frame(details_frame, padding=20)
-        right_panel.pack(side="right", fill="both", expand=True, padx=20, pady=20)
+        main_panel = ttk.Frame(details_frame, padding=20)
+        main_panel.pack(side="right", fill="both", expand=True, padx=20, pady=20)
 
-        canvas = ttk.Canvas(right_panel, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(right_panel, orient="vertical", command=canvas.yview)
+        canvas = ttk.Canvas(main_panel, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(main_panel, orient="vertical", command=canvas.yview)
         scrollable_frame = ttk.Frame(canvas)
 
         scrollable_frame.bind(
@@ -199,10 +197,10 @@ def view_books(app, email):
         review_frame.pack(fill="x", pady=(0, 1))
         if reviews!="No reviews found for this book.":
             for review in reviews:
-
-                reviewer_email = review[1]
-                review_text = review[2]
-                rating = review[3]
+                
+                reviewer_email = review[3]
+                review_text = review[5]
+                rating = review[4]
 
                 ttk.Label(
                     review_frame,

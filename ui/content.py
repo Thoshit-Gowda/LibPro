@@ -26,7 +26,7 @@ def dashboard_content(app, email, db):
     
     userDet = get_user(db, email=email)
 
-    ttk.Label(app, text="Hello, "f'{userDet[2]}.', font=("Helvetica", 20, "bold"), foreground="#6CA6CD").pack(anchor="w", padx=20, pady=(10, 0))
+    ttk.Label(app, text="Hello, "f'{userDet[2]}!', font=("Helvetica", 20, "bold"), foreground="#6CA6CD").pack(anchor="w", padx=20, pady=(10, 0))
     time_label = ttk.Label(app, font=("Helvetica", 10))
     time_label.pack(anchor="w", padx=20)
     update_time(time_label)
@@ -120,5 +120,8 @@ def dashboard_content(app, email, db):
             ""      
         ))
 
-        for rec in overdue_books(email=email):
+        if not overdue_books(email=email) or overdue_books(email=email) == "No overdue records.":
+            books_tree.insert("", "end", values=("NO","OVERDUE","RECORDS"))
+        else:    
+            for rec in overdue_books(email=email):
                 books_tree.insert("", "end", values=(rec[0],rec[2],rec[3],rec[4]))

@@ -17,7 +17,7 @@ def add_review(isbn, fullname,email, review, rating):
         
 
         query = """
-        INSERT INTO Reviews (ISBN, ReveierName, ReviewerEmail, Rating, Review)
+        INSERT INTO Reviews (ISBN, ReviewerName, ReviewerEmail, Rating, Review)
         VALUES (%s, %s, %s, %s, %s)
         """
         values = (isbn, fullname, email, rating, review)

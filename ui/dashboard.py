@@ -10,6 +10,7 @@ from ui.librarian.bay_manage import bay_manager
 from ui.librarian.books_manage import books_manage
 from ui.member.view_books import view_books
 from ui.member.ProPoints import points_dashboard
+from ui.member.view_borrowed_books import view_borrowed_books
 
 def open_dashboard(app, user,db):
     for widget in app.winfo_children():
@@ -59,6 +60,13 @@ def open_pro_points(app, user):
         return
     points_dashboard(app, user)  
     
+def open_borrowed_books(app, user):
+    for widget in app.winfo_children():
+        widget.destroy()
+    if not app:
+        messagebox.showerror("Error", "Application instance not found.")
+        return
+    view_borrowed_books(app, user)  
 
 def logout(app):
     res = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?")
@@ -127,8 +135,8 @@ def dashboard(app, email, db):
         pro_points_button = ttk.Button(menu_frame, text="Pro Points", command=lambda: [select_button(pro_points_button),open_pro_points(main_frame, email)], style="inactive.TButton")
         pro_points_button.pack(padx=5, fill="x", side="top")
     
-        # membership_management_button = ttk.Button(menu_frame, text="Membership Management", command=lambda: [select_button(membership_management_button),open_membership_management(main_frame)], style="inactive.TButton")
-        # membership_management_button.pack(padx=5, fill="x", side="top")
+        borrowed_books_button = ttk.Button(menu_frame, text="Borrowed Books", command=lambda: [select_button(borrowed_books_button),open_borrowed_books(main_frame, email)], style="inactive.TButton")
+        borrowed_books_button.pack(padx=5, fill="x", side="top")
 
         select_button(dashboard_button)
     else: return("Invalid Input")  
