@@ -9,6 +9,7 @@ ACCENT_COLOR = "#dc143c"
 def view_borrowed_books(app, member):
 
     brrwd_books = get_record(email=member)
+    if brrwd_books == "No records found.": brrwd_books = []
 
     def show_main_page():
         for widget in app.winfo_children():

@@ -2,13 +2,13 @@ import time
 import base64
 from backend.constants import ENCRYPTION_KEY
 
-def validate_fields(fields, valid_fields):
+def validate_fields(fields, evalid_fields):
     if not fields:
         return "*"
     
     valid_fields = []
     for f in fields:
-        if f in valid_fields:
+        if f in evalid_fields:
             valid_fields.append(f)
     
     if not valid_fields:

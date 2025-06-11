@@ -11,6 +11,7 @@ from ui.librarian.books_manage import books_manage
 from ui.member.view_books import view_books
 from ui.member.ProPoints import points_dashboard
 from ui.member.view_borrowed_books import view_borrowed_books
+from ui.member.wishlist import wishlist
 
 def open_dashboard(app, user,db):
     for widget in app.winfo_children():
@@ -67,6 +68,14 @@ def open_borrowed_books(app, user):
         messagebox.showerror("Error", "Application instance not found.")
         return
     view_borrowed_books(app, user)  
+
+def open_whishlist(app,user,db):
+    for widget in app.winfo_children():
+        widget.destroy()
+    if not app:
+        messagebox.showerror("Error", "Application instance not found.")
+        return
+    wishlist(app, user,db)  
 
 def logout(app):
     res = messagebox.askyesno("Confirm Logout", "Are you sure you want to logout?")
@@ -137,6 +146,9 @@ def dashboard(app, email, db):
     
         borrowed_books_button = ttk.Button(menu_frame, text="Borrowed Books", command=lambda: [select_button(borrowed_books_button),open_borrowed_books(main_frame, email)], style="inactive.TButton")
         borrowed_books_button.pack(padx=5, fill="x", side="top")
+
+        wishlist_button = ttk.Button(menu_frame, text="Wishlist", command=lambda: [select_button(wishlist_button),open_whishlist(main_frame,email,db)], style="inactive.TButton")
+        wishlist_button.pack(padx=5, fill="x", side="top")
 
         select_button(dashboard_button)
     else: return("Invalid Input")  
